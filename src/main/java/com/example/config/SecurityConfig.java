@@ -17,7 +17,18 @@ public class SecurityConfig {
 		http
 				.authorizeHttpRequests(authorize -> authorize
 						// 静的リソースとログインページは許可
-						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", /*"/mainmenu",*/ "/login", "/register")
+//						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**"
+//								/*"/mainmenu",*/ 
+//								, "/login", "/register")
+						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**"
+						, "/resipe"
+						, "/recipeAll"
+						, "/recipeImageView"
+						, "/income"
+						, "/statistics"
+						, "/mainmenu"
+						, "/register"
+						, "/login", "/register")
 						.permitAll()
 						.anyRequest().authenticated() // その他は認証が必要
 				)
