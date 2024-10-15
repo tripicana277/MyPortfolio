@@ -3,12 +3,9 @@ package com.example.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 
 @Service
-@Table(name = "login") // データベースのテーブル名を指定
 public class UserService {
 
     @Autowired
