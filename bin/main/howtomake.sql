@@ -6,4 +6,4 @@ CREATE TABLE `howtomake` (
   PRIMARY KEY (`ID`),
   KEY `fk_recipe_howtomake` (`RECIPENAME`),
   CONSTRAINT `fk_recipe_howtomake` FOREIGN KEY (`RECIPENAME`) REFERENCES `recipemain` (`RECIPENAME`) ON DELETE CASCADE
-)
+);

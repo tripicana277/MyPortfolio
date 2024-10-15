@@ -4,4 +4,4 @@ CREATE TABLE `recipemain` (
   `COMMENT` varchar(255) DEFAULT NULL,
   `NUMBER` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`RECIPENAME`)
-)
+);

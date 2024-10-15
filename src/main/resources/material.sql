@@ -6,4 +6,4 @@ CREATE TABLE `material` (
   PRIMARY KEY (`ID`),
   KEY `fk_recipe_material` (`RECIPENAME`),
   CONSTRAINT `fk_recipe_material` FOREIGN KEY (`RECIPENAME`) REFERENCES `recipemain` (`RECIPENAME`) ON DELETE CASCADE
-)
+);
