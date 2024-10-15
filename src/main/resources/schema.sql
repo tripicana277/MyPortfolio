@@ -1,11 +1,11 @@
-CREATE TABLE `login` (
+CREATE TABLE IF NOT EXISTS `login` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `recipemain` (
+CREATE TABLE IF NOT EXISTS `recipemain` (
   `RECIPENAME` varchar(255) NOT NULL,
   `FILENAME` varchar(255) DEFAULT NULL,
   `COMMENT` varchar(255) DEFAULT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `recipemain` (
   PRIMARY KEY (`RECIPENAME`)
 );
 
-CREATE TABLE `material` (
+CREATE TABLE IF NOT EXISTS `material` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `RECIPENAME` varchar(255) NOT NULL,
   `MATERIAL` varchar(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `material` (
   CONSTRAINT `fk_recipe_material` FOREIGN KEY (`RECIPENAME`) REFERENCES `recipemain` (`RECIPENAME`) ON DELETE CASCADE
 );
 
-CREATE TABLE `howtomake` (
+CREATE TABLE IF NOT EXISTS `howtomake` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `RECIPENAME` varchar(255) NOT NULL,
   `FILENAME2` varchar(255) NOT NULL,
