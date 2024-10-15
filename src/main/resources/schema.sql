@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `login` (
-  `ID` bigint NOT NULL AUTO_INCREMENT,
-  `USERNAME` varchar(255) NOT NULL,
-  `PASSWORD` varchar(255) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
