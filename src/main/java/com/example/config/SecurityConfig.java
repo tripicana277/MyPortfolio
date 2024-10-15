@@ -15,15 +15,13 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.csrf().disable() // CSRF保護を無効化
+				//				.csrf().disable() // CSRF保護を無効化
 				.authorizeHttpRequests(authorize -> authorize
-						// 静的リソースとログインページは許可
-						//						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**"
-						//								/*"/mainmenu",*/ 
-						//								, "/login", "/register")
-						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", "/resipe", "/recipeAll",
-								"/recipeImageView", "/income", "/statistics", "/mainmenu", "/register", "/login",
-								"/register")
+						//  静的リソースとログインページは許可
+						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", "/login", "/register")
+						//						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", "/resipe", "/recipeAll",
+						//								"/recipeImageView", "/income", "/statistics", "/mainmenu", "/register", "/login",
+						//								"/register")
 						.permitAll()
 						.anyRequest().authenticated() // その他は認証が必要
 				)
