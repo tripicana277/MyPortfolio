@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<title>統計画面</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div class="layout-container">
+		<div class="left-align">
+			<!-- 収支管理画面へ移動 -->
+			<form th:action="@{/getIncome}" method="get">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<input type="hidden" name="id" th:value="2" />
+				<button type="submit">収支画面</button>
+			</form>
+		</div>
+
+		<!-- ユーザー認証とログアウト -->
+		<div class="right-align">
+			<div sec:authorize="isAuthenticated()">
+				ユーザー認証済み: <span sec:authentication="name">ログイン情報</span>
+			</div>
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="ログアウト">
+			</form>
+		</div>
+	</div>
+	<div class="layout-container">
+		<div class="button-container">
+			<form action="/moveMainMenu" method="get">
+				<input type="submit" value="メインメニュー">
+			</form>
+		</div>
+	</div>
+	<h1>統計画面</h1>
+	<p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
+		毎月の収支管理画面では、入力したデータの<br>「月ごとの合計」「月ごとの平均値」「合算」を確認できます。
+	</p>
+
+	<!-- ボタンのグループ化 -->
+	<div class="button-group">
+		<form th:action="@{/getStatistics}" method="get">
+		    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    <input type="hidden" name="id" th:value="1" />
+		    <button type="submit">去年</button>
+		</form>
+		<form th:action="@{/getStatistics}" method="get">
+		    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    <input type="hidden" name="id" th:value="2" />
+		    <button type="submit">今年</button>
+		</form>
+		<form th:action="@{/getStatistics}" method="get">
+		    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    <input type="hidden" name="id" th:value="3" />
+		    <button type="submit">来年</button>
+		</form>
+	</div>
+
+	<!-- 現在の年を表示 -->
+	<div class="date-display">
+		<span th:text="${#temporals.format(localDate, 'yyyy年')}"></span>
+	</div>
+
+	<!-- 統計データの表示(後に総資産に記載を変更する) -->
+	<p>合算: <span th:text="${allAsset}"></span></p>
+
+	<!-- グラフの描画(Chart.jsライブラリ) -->
+	<canvas id="lineChart" width="400" height="200"></canvas>
+
+	<!-- グラフ表示用のスクリプト -->
+	<script th:inline="javascript">
+		var averageIncome = /*[[${averageIncome}]]*/ 0;
+		var treeMapMonthCount = /*[[${treeMapMonthCount}]]*/ {};
+	</script>
+
+	<script src="/js/statistics.js"></script>
+</body>
+
+</html>

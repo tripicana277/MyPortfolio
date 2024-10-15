@@ -1,0 +1,29 @@
+# Ignore MySQL data files and socket files
+mysql_data/
+*.sock
+echo # Ignore MySQL data files and socket files >> .gitignore
+target/
+build/
+mysql_data/
+*.sock
+echo # Ignore MySQL data files and socket files >> .gitignore
+target/
+build/
+mysql_data/
+*.sock
+git add .gitignore
+target/
+build/
+mysql_data/
+*.sock
+target/
+build/
+mysql_data/
+*.sock
+target/
+build/
+mysql_data/
+*.sock
+exit
+target/
+build/
