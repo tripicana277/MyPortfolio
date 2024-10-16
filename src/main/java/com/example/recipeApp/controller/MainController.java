@@ -43,7 +43,8 @@ public class MainController {
 			Model model) {
 		try {
 			// ファイルアップロード
-			String uploadedFileName = uploadFile(file);
+//			String uploadedFileName = uploadFile(file);
+			String uploadedFileName = null;
 			if (uploadedFileName == null) {
 				logger.warn("メインレシピ画像がアップロードされていません");
 			}
@@ -158,7 +159,8 @@ public class MainController {
 			throws IOException {
 		List<RecipeSubHowToMake> recipeSubHowToMakes = new ArrayList<>();
 		for (int i = 0; i < files.size(); i++) {
-			String fileName = uploadFile(files.get(i));
+//			String fileName = uploadFile(files.get(i));
+			String fileName = null;
 			RecipeSubHowToMake sub = new RecipeMain().new RecipeSubHowToMake();
 			sub.setFileName2(fileName);
 			sub.setHowToMake(howToMakes[i]);
