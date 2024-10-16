@@ -24,16 +24,6 @@ public class IncomeService {
 	}
 
 	// SQLクエリ定数
-//	private static final String SELECT_INCOME_BY_MONTH = "SELECT * FROM INCOME WHERE DATE_FORMAT(INCOME_DATE, '%Y-%m') = ? ORDER BY INCOME_DATE ASC";
-//	private static final String SELECT_INCOME_BY_YEAR = "SELECT * FROM INCOME WHERE DATE_FORMAT(INCOME_DATE, '%Y') = ? ORDER BY INCOME_DATE ASC";
-//	private static final String SELECT_ALL_INCOME = "SELECT * FROM INCOME ORDER BY INCOME_DATE ASC";
-//	private static final String INSERT_INCOME = "INSERT INTO INCOME (INCOME_DATE, INCOME_NAME, INCOME_COUNT) VALUES (?, ?, ?)";
-//	private static final String UPDATE_INCOME_DATE = "UPDATE INCOME SET INCOME_DATE = ? WHERE INCOME_NAME = ?";
-//	private static final String UPDATE_INCOME_NAME = "UPDATE INCOME SET INCOME_NAME = ? WHERE INCOME_NAME = ?";
-//	private static final String UPDATE_INCOME_COUNT = "UPDATE INCOME SET INCOME_COUNT = ? WHERE INCOME_NAME = ?";
-//	private static final String DELETE_INCOME_BY_NAME = "DELETE FROM INCOME WHERE INCOME_NAME = ?";
-
-	// SQLクエリ定数
 	private static final String SELECT_INCOME_BY_MONTH = "SELECT * FROM income WHERE DATE_FORMAT(income_date, '%Y-%m') = ? ORDER BY income_date ASC";
 	private static final String SELECT_INCOME_BY_YEAR = "SELECT * FROM income WHERE DATE_FORMAT(income_date, '%Y') = ? ORDER BY income_date ASC";
 	private static final String SELECT_ALL_INCOME = "SELECT * FROM income ORDER BY income_date ASC";
