@@ -43,7 +43,7 @@ public class MainController {
 			@RequestParam("fileName2[]") List<MultipartFile> howToMakeFiles,
 			Model model) {
 		try {
-		    logger.debug("addRecipe受信");
+		    logger.debug("TestTakeda6");
 
 			// ファイルアップロード
 //			String uploadedFileName = uploadFile(file);
@@ -62,7 +62,7 @@ public class MainController {
 			RecipeMain recipeMain = new RecipeMain(recipeName, uploadedFileName, comment, number, recipeSubMaterials,
 					recipeSubHowToMakes);
 
-		    logger.debug("addRecipeレシピ保存");
+		    logger.debug("TestTakeda7");
 			
 			// レシピ保存
 			recipeLogic.addRecipe(recipeMain); // 単一のオブジェクトとして保存

@@ -24,10 +24,10 @@ public class RecipeLogic {
     // 新しいレシピを保存するメソッド
     public List<RecipeMain> addRecipe(RecipeMain recipeMain) throws SQLException {
     	
-	    logger.debug("addOne4");
+	    logger.debug("TestTakeda4");
     	String recipeName = recipeService.addOne(recipeMain);
     	
-	    logger.debug("addOne5");
+	    logger.debug("TestTakeda5");
         return recipeService.getOne(recipeName); // DAOを使用してデータベースにレシピを保存
     }
     
