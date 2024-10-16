@@ -37,18 +37,18 @@ public class RecipeService {
     @Transactional
     public String addOne(RecipeMain recipeMain) {
     	
-	    logger.debug("addOne");
+	    logger.debug("TestTakeda");
     	
         // レシピメイン情報を挿入
         jdbcTemplate.update(INSERT_RECIPEMAIN, recipeMain.getRecipeName(), recipeMain.getFileName(), recipeMain.getComment(), recipeMain.getNumber());
 
-	    logger.debug("addOne2");
+	    logger.debug("TestTakeda2");
 
         // 材料と作り方を挿入
         insertMaterials(recipeMain);
         insertHowToMakes(recipeMain);
 
-	    logger.debug("addOne3");
+	    logger.debug("TestTakeda3");
 
         return recipeMain.getRecipeName();
     }

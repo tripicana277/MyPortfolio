@@ -18,7 +18,7 @@ public class RecipeLogic {
 
     private final RecipeService recipeService;
 
-	private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
+	private static final Logger logger = LoggerFactory.getLogger(RecipeLogic.class);
 
     
     // 新しいレシピを保存するメソッド
