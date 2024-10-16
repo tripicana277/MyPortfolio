@@ -1,5 +1,6 @@
 package com.example.incomeApp.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 // Recipeクラスは、投稿内容を保持するためのモデルクラスです。
 // このクラスはSerializableインターフェースを実装しており、セッションに保存されたり、外部に保存されたりする際に使用されます。
-//@Entity
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
