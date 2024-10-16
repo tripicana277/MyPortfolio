@@ -1,9 +1,9 @@
-CREATE TABLE  IF NOT EXISTS `LOGIN` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-);
+--CREATE TABLE  IF NOT EXISTS `LOGIN` (
+--  `id` bigint NOT NULL AUTO_INCREMENT,
+--  `username` varchar(255) NOT NULL,
+--  `password` varchar(255) NOT NULL,
+--  PRIMARY KEY (`id`)
+--);
 
 CREATE TABLE IF NOT EXISTS `RECIPEMAIN` (
   `RECIPENAME` varchar(255) NOT NULL,
@@ -45,9 +45,9 @@ CREATE TABLE  IF NOT EXISTS IMAGES (
     image_data LONGBLOB
 );
 
-CREATE TABLE IF NOT EXISTS `INCOME` (
-  `INCOME_DATE` varchar(255) NOT NULL,
-  `INCOME_NAME` varchar(255) NOT NULL,
-  `INCOME_COUNT` int NOT NULL,
-  PRIMARY KEY (`INCOME_NAME`)
-);
+--CREATE TABLE IF NOT EXISTS `INCOME` (
+--  `INCOME_DATE` varchar(255) NOT NULL,
+--  `INCOME_NAME` varchar(255) NOT NULL,
+--  `INCOME_COUNT` int NOT NULL,
+--  PRIMARY KEY (`INCOME_NAME`)
+--);
