@@ -34,14 +34,14 @@ public class IncomeService {
 //	private static final String DELETE_INCOME_BY_NAME = "DELETE FROM INCOME WHERE INCOME_NAME = ?";
 
 	// SQLクエリ定数
-	private static final String SELECT_INCOME_BY_MONTH = "SELECT * FROM INCOME WHERE DATE_FORMAT(income_date, '%Y-%m') = ? ORDER BY income_date ASC";
-	private static final String SELECT_INCOME_BY_YEAR = "SELECT * FROM INCOME WHERE DATE_FORMAT(income_date, '%Y') = ? ORDER BY income_date ASC";
-	private static final String SELECT_ALL_INCOME = "SELECT * FROM INCOME ORDER BY income_date ASC";
-	private static final String INSERT_INCOME = "INSERT INTO INCOME (income_date, income_name, income_count) VALUES (?, ?, ?)";
-	private static final String UPDATE_INCOME_DATE = "UPDATE INCOME SET income_date = ? WHERE income_name = ?";
-	private static final String UPDATE_INCOME_NAME = "UPDATE INCOME SET income_name = ? WHERE income_name = ?";
-	private static final String UPDATE_INCOME_COUNT = "UPDATE INCOME SET income_count = ? WHERE income_name = ?";
-	private static final String DELETE_INCOME_BY_NAME = "DELETE FROM INCOME WHERE income_name = ?";
+	private static final String SELECT_INCOME_BY_MONTH = "SELECT * FROM income WHERE DATE_FORMAT(income_date, '%Y-%m') = ? ORDER BY income_date ASC";
+	private static final String SELECT_INCOME_BY_YEAR = "SELECT * FROM income WHERE DATE_FORMAT(income_date, '%Y') = ? ORDER BY income_date ASC";
+	private static final String SELECT_ALL_INCOME = "SELECT * FROM income ORDER BY income_date ASC";
+	private static final String INSERT_INCOME = "INSERT INTO income (income_date, income_name, income_count) VALUES (?, ?, ?)";
+	private static final String UPDATE_INCOME_DATE = "UPDATE income SET income_date = ? WHERE income_name = ?";
+	private static final String UPDATE_INCOME_NAME = "UPDATE income SET income_name = ? WHERE income_name = ?";
+	private static final String UPDATE_INCOME_COUNT = "UPDATE income SET income_count = ? WHERE income_name = ?";
+	private static final String DELETE_INCOME_BY_NAME = "DELETE FROM income WHERE income_name = ?";
 
 	// 新しい収入データを追加
 	public void addOne(String formattedDate, Income income) {
