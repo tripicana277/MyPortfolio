@@ -3,6 +3,8 @@ package com.example.recipeApp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,16 +31,24 @@ public class RecipeService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+	private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
+
     // 新しいレシピを挿入するメソッド
     @Transactional
     public String addOne(RecipeMain recipeMain) {
     	
+	    logger.debug("addOne");
+    	
         // レシピメイン情報を挿入
         jdbcTemplate.update(INSERT_RECIPEMAIN, recipeMain.getRecipeName(), recipeMain.getFileName(), recipeMain.getComment(), recipeMain.getNumber());
+
+	    logger.debug("addOne2");
 
         // 材料と作り方を挿入
         insertMaterials(recipeMain);
         insertHowToMakes(recipeMain);
+
+	    logger.debug("addOne3");
 
         return recipeMain.getRecipeName();
     }

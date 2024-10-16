@@ -3,6 +3,8 @@ package com.example.recipeApp.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.recipeApp.entity.RecipeMain;
@@ -16,9 +18,16 @@ public class RecipeLogic {
 
     private final RecipeService recipeService;
 
+	private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
+
+    
     // 新しいレシピを保存するメソッド
     public List<RecipeMain> addRecipe(RecipeMain recipeMain) throws SQLException {
+    	
+	    logger.debug("addOne4");
     	String recipeName = recipeService.addOne(recipeMain);
+    	
+	    logger.debug("addOne5");
         return recipeService.getOne(recipeName); // DAOを使用してデータベースにレシピを保存
     }
     

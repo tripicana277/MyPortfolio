@@ -28,6 +28,7 @@ public class MainController {
 
 	@Autowired
 	private RecipeLogic recipeLogic;
+
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	// 新しいレシピの追加 (POST)
@@ -42,6 +43,8 @@ public class MainController {
 			@RequestParam("fileName2[]") List<MultipartFile> howToMakeFiles,
 			Model model) {
 		try {
+		    logger.debug("addRecipe受信");
+
 			// ファイルアップロード
 //			String uploadedFileName = uploadFile(file);
 			String uploadedFileName = null;
@@ -59,6 +62,8 @@ public class MainController {
 			RecipeMain recipeMain = new RecipeMain(recipeName, uploadedFileName, comment, number, recipeSubMaterials,
 					recipeSubHowToMakes);
 
+		    logger.debug("addRecipeレシピ保存");
+			
 			// レシピ保存
 			recipeLogic.addRecipe(recipeMain); // 単一のオブジェクトとして保存
 			model.addAttribute("recipe", recipeMain);
