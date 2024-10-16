@@ -47,6 +47,7 @@ public class MainController {
 
 			// ファイルアップロード
 			String uploadedFileName = uploadFile(file);
+//			String uploadedFileName = null;
 			if (uploadedFileName == null) {
 				logger.warn("メインレシピ画像がアップロードされていません");
 			}
