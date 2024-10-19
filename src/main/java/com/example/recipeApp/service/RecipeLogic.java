@@ -20,9 +20,8 @@ public class RecipeLogic {
 
 	private static final Logger logger = LoggerFactory.getLogger(RecipeLogic.class);
 
-    
     // 新しいレシピを保存するメソッド
-    public List<RecipeMain> addRecipe(RecipeMain recipeMain) throws SQLException {
+    public RecipeMain addRecipe(RecipeMain recipeMain) throws SQLException {
     	
 	    logger.debug("TestTakeda4");
     	String recipeName = recipeService.addOne(recipeMain);
@@ -32,7 +31,7 @@ public class RecipeLogic {
     }
     
     // 指定されたIDや文字列に基づいてRecipeオブジェクトを取得するメソッド
-    public List<RecipeMain> getRecipeByName(String recipeName) throws SQLException {
+    public RecipeMain getRecipeByName(String recipeName) throws SQLException {
         return recipeService.getOne(recipeName); // DAOを使用してデータベースから指定された項目を取得
     }
 

@@ -6,6 +6,9 @@
 	<title>レシピの紹介</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
 	<!-- ページ全体のレイアウトコンテナ -->
 	<div class="layout-container">
 		<!-- 左揃え：統計画面へのリンクを提供するフォーム -->
@@ -27,20 +30,20 @@
 			</div>
 			<!-- ログアウトボタン -->
 			<form th:action="@{/logout}" method="post">
+				<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<input type="submit" value="ログアウト">
 			</form>
 		</div>
 	</div>
-	<div class="layout-container">
-	    <div class="button-container">
-	        <form action="/moveMainMenu" method="get">
-	            <input type="submit" value="メインメニュー">
-	        </form>
-	    </div>
-	</div>
-</head>
 
-<body>
+	<div class="layout-container">
+		<div class="button-container">
+			<form action="/moveMainMenu" method="get">
+				<input type="submit" value="メインメニュー">
+			</form>
+		</div>
+	</div>
+
 	<h1>レシピの紹介</h1>
 	<!-- レシピの基本情報を表示するテーブル -->
 	<table border="1">
@@ -55,11 +58,24 @@
 		<tr class="transparent-table">
 			<td>
 				<!-- 画像ファイルが存在するかチェックし、パスを修正 -->
-				<img th:if="${recipe != null && recipe.fileName != null}"
-					th:src="@{/uploads/{fileName}(fileName=${recipe.fileName})}" alt="アップロードされた画像"
-					class="auto-height-image2" />
-				<p th:if="${recipe == null || recipe.fileName == null}">画像がアップロードされていません。</p>
-			</td>
+				<!--				<img th:if="${recipe != null && recipe.imagefile != null && recipe.imagefile.fileData != null}"-->
+				<!--					th:src="'data:image/jpeg;base64,' + ${T(java.util.Base64).getEncoder().encodeToString(recipe.imagefile.fileData)}"-->
+				<!--					alt="アップロードされた画像" class="auto-height-image2" />-->
+				<!--				<p th:if="${recipe == null || recipe.imagefile == null || recipe.imagefile.fileData == null}">-->
+				<!--					画像がアップロードされていません。</p>-->
+				<!--				<img th:if="${recipe?.imagefile?.fileData != null}"-->
+				<!--					th:src="'data:image/jpeg;base64,' + ${T(java.util.Base64).getEncoder().encodeToString(recipe.imagefile.fileData)}"-->
+				<!--					alt="アップロードされた画像" class="auto-height-image2" />-->
+				<!--				<p th:if="${recipe?.imagefile?.fileData == null}">画像がアップロードされていません。</p>-->
+
+
+<!--				<img th:if="${base64Image != null}" th:src="'data:image/jpeg;base64,' + ${base64Image}"-->
+<!--					alt="アップロードされた画像" class="auto-height-image2" />-->
+<!--				<p th:if="${base64Image == null}">画像がアップロードされていません。</p>-->
+				<img th:if="${recipe.imagefile.fileDataView != null}" th:src="'data:image/jpeg;base64,' + ${recipe.imagefile.fileDataView}"
+					alt="アップロードされた画像" class="auto-height-image2" />
+				<p th:if="${recipe.imagefile.fileDataView == null}">画像がアップロードされていません。</p>
+						</td>
 			<td th:text="${recipe != null && recipe.comment != null ? recipe.comment : 'コメントがありません'}"></td>
 		</tr>
 	</table>
@@ -88,6 +104,8 @@
 			<td th:text="' ・ ' + ${material.material}"></td>
 			<td th:text="${material.quantity}"></td>
 		</tr>
+
+
 	</table>
 
 	<!-- 作り方画像と作り方を表示するテーブル -->
@@ -96,19 +114,41 @@
 			<th>作り方画像</th>
 			<th>作り方</th>
 		</tr>
-		<tr th:if="${recipe == null || recipe.recipeSubHowToMakes == null || recipe.recipeSubHowToMakes.isEmpty()}">
+		<!--        <tr th:if="${recipe == null || recipe.recipeSubHowToMakes == null || recipe.recipeSubHowToMakes.isEmpty()}">-->
+		<!--            <td colspan="2">作り方がありません。</td>-->
+		<!--        </tr>-->
+		<!--        <tr th:each="howToMake, iterStat : ${recipe.recipeSubHowToMakes}" class="transparent-table">-->
+		<!--            <td>-->
+		<!--                <img th:if="${howToMake != null && howToMake.fileData != null}"-->
+		<!--                     th:src="'data:image/jpeg;base64,' + ${T(java.util.Base64).getEncoder().encodeToString(howToMake.fileData)}"-->
+		<!--                     alt="アップロードされた画像" class="auto-height-image3" />-->
+		<!--                <p th:if="${howToMake == null || howToMake.fileData == null}">画像がアップロードされていません。</p>-->
+		<!--            </td>-->
+		<!--            <td th:text="${iterStat.count} + ' : ' + ${howToMake.howToMake}"></td>-->
+		<!--        </tr>-->
+
+
+
+		<!-- 作り方がない場合の表示 -->
+		<tr th:if="${#lists.isEmpty(recipe?.recipeSubHowToMakes)}">
 			<td colspan="2">作り方がありません。</td>
 		</tr>
+
+		<!-- 作り方がある場合の表示 -->
 		<tr th:each="howToMake, iterStat : ${recipe.recipeSubHowToMakes}" class="transparent-table">
 			<td>
-				<!-- 画像ファイルのパスを修正 -->
-				<img th:if="${howToMake.fileName2 != null}"
-					th:src="@{/uploads/{fileName2}(fileName2=${howToMake.fileName2})}" alt="アップロードされた画像"
-					class="auto-height-image3" />
-				<p th:if="${howToMake.fileName2 == null}">画像がアップロードされていません。</p>
+<!--				<img th:if="${howToMake?.imagefile2?.fileData != null}"-->
+<!--					th:src="'data:image/jpeg;base64,' + ${T(java.util.Base64).getEncoder().encodeToString(howToMake.imagefile2.fileData)}"-->
+<!--					alt="アップロードされた画像" class="auto-height-image3" />-->
+<!--				<p th:if="${howToMake?.imagefile2?.fileData == null}">画像がアップロードされていません。</p>-->
+				
+				<img th:if="${howToMake.imagefile2.fileDataView != null}" th:src="'data:image/jpeg;base64,' + ${howToMake.imagefile2.fileDataView}"
+					alt="アップロードされた画像" class="auto-height-image3" />
+				<p th:if="${howToMake.imagefile2.fileDataView == null}">画像がアップロードされていません。</p>
 			</td>
 			<td th:text="${iterStat.count} + ' : ' + ${howToMake.howToMake}"></td>
 		</tr>
+
 	</table>
 </body>
 

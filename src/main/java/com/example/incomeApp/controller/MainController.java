@@ -65,22 +65,24 @@ public class MainController {
 		return "income/statistics";
 	}
 
-	@PostMapping("/add")
-	public String addIncome(@RequestParam("id") int id,
-			@RequestParam("date") String date,
-			@RequestParam("name") String name,
-			@RequestParam("count") int count,
-			Model model) throws SQLException {
+	@GetMapping("/add/{id}")
+	public String addIncome(@PathVariable("id") int id,
+	        @RequestParam(value = "count", required = false, defaultValue = "0") Integer count,
+	        @RequestParam(value = "modalDate", required = false, defaultValue = "") String modalDate,
+	        @RequestParam(value = "modalName", required = false, defaultValue = "") String modalName,
+	        @RequestParam(value = "modalCount", required = false, defaultValue = "0") int modalCount,
+	        Model model) throws SQLException {
 
-		LocalDate localDate = getSessionAdjustedDate(id, 2, false);
-		String formattedDate = localDate.format(yearMonthFormatter);
+	    LocalDate localDate = getSessionAdjustedDate(id, 2, false);
+	    String formattedDate = localDate.format(yearMonthFormatter);
 
-		List<Income> incomes = incomeLogic.addIncomeLogic(formattedDate, new Income(date, name, count));
-		model.addAttribute("incomes", incomes);
-		model.addAttribute("localDate", localDate);
+	    List<Income> incomes = incomeLogic.addIncomeLogic(formattedDate, new Income(modalDate, modalName, modalCount));
+	    model.addAttribute("incomes", incomes);
+	    model.addAttribute("localDate", localDate);
 
-		return "income/income";
+	    return "income/income";
 	}
+
 
 	@GetMapping("/set/{id}/{count}/{incomeDate}/{incomeName}/{incomeCount}")
 	public String setIncome(@PathVariable("id") int id,
@@ -108,6 +110,9 @@ public class MainController {
 	public String deleteIncome(@RequestParam("id") int id,
 			@RequestParam("incomeName") String name,
 			Model model) throws SQLException {
+
+		System.out.println("id:" + id +
+				"incomeName:" + name);
 
 		LocalDate localDate = getSessionAdjustedDate(id, 2, false);
 		String formattedDate = localDate.format(yearMonthFormatter);

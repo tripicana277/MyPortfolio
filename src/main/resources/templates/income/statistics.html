@@ -7,20 +7,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
-</head>
-
-<body>
 	<div class="layout-container">
 		<div class="left-align">
-			<!-- 収支管理画面へ移動 -->
 			<form th:action="@{/getIncome}" method="get">
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<input type="hidden" name="id" th:value="2" />
 				<button type="submit">収支画面</button>
 			</form>
 		</div>
-
-		<!-- ユーザー認証とログアウト -->
 		<div class="right-align">
 			<div sec:authorize="isAuthenticated()">
 				ユーザー認証済み: <span sec:authentication="name">ログイン情報</span>
@@ -37,6 +31,10 @@
 			</form>
 		</div>
 	</div>
+</head>
+
+<body>
+
 	<h1>統計画面</h1>
 	<p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
 		毎月の収支管理画面では、入力したデータの<br>「月ごとの合計」「月ごとの平均値」「合算」を確認できます。

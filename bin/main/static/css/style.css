@@ -87,11 +87,37 @@ input[type="password"] {
 }
 
 /* ボタンを右揃えにするためのスタイル */
-.button-container {
+/*.button-container {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: flex-end;   ボタンを右揃えに */
+/*  width: 100%;                 コンテナを画面幅いっぱいに */
+/*}*/
+
+.add-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-end;  /* ボタンを右揃えに */
-  width: 100%;                /* コンテナを画面幅いっぱいに */
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 700px;
+  flex-wrap: wrap;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* ボタンをテーブルの右端に揃える */
+    width: 100%; /* ボタンコンテナをテーブルと同じ幅に */
+    max-width: 700px; /* テーブルの最大幅と合わせる */
+    margin-top: 10px;
+    margin-left: auto; /* 自動で左側の余白を確保し、右側に寄せる */
+}
+
+.button-right {
+    display: flex;
+    justify-content: flex-end; /* ボタンを右に寄せる */
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* 左右の配置用クラス */

@@ -13,12 +13,11 @@
 	<div class="layout-container">
 		<div class="left-align">
 			<form th:action="@{/getStatistics}" method="get">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<input type="hidden" name="id" th:value="2" />
 				<button type="submit">統計画面</button>
 			</form>
 		</div>
-
 		<div class="right-align">
 			<div sec:authorize="isAuthenticated()">
 				ユーザー認証済み:
@@ -27,7 +26,7 @@
 				ログイン情報のname値に書き換わる
 			</div>
 			<form th:action="@{/logout}" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
 				<input type="submit" value="ログアウト">
 			</form>
 		</div>
@@ -52,17 +51,17 @@
 
 	<div class="button-group">
 		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
 			<input type="hidden" name="id" th:value="1" />
 			<button type="submit">先月</button>
 		</form>
 		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
 			<input type="hidden" name="id" th:value="2" />
 			<button type="submit">今月</button>
 		</form>
 		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
 			<input type="hidden" name="id" th:value="3" />
 			<button type="submit">来月</button>
 		</form>
@@ -72,59 +71,57 @@
 		<span th:text="${#temporals.format(localDate, 'yyyy年M月')}"></span>
 	</div>
 
-	<form action="/add" method="post">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-		<input type="hidden" name="id" th:value="2" />
-		<table id="materialTable" border="1">
-			<thead>
-				<tr bgcolor="silver">
-					<th>日時</th>
-					<th>項目名</th>
-					<th>収支(円)</th>
-					<th>-</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="income : ${incomes}">
-					<td>
-						<button type="button" class="openModalBtn" data-modal-type="date"
-							th:attr="data-income-date=${income.incomeDate}, data-income-name=${income.incomeName}">
-							<span th:text="${income.incomeDate}">ボタン</span>
-						</button>
-					</td>
-					<td>
-						<button type="button" class="openModalBtn" data-modal-type="name"
-							th:attr="data-income-name=${income.incomeName}">
-							<span th:text="${income.incomeName}">ボタン</span>
-						</button>
-					</td>
-					<td>
-						<button type="button" class="openModalBtn" data-modal-type="count"
-							th:attr="data-income-count=${income.incomeCount}, data-income-name=${income.incomeName}"
-							th:style="${income.incomeCount > 0} ? 'background-color: #FF2994;' : 'background-color: #2929FF;'">
-							<span th:text="${income.incomeCount}">ボタン</span>
-						</button>
-					</td>
-					<td>
-						<form th:action="@{/delete}" method="post">
-							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-							<input type="hidden" name="id" th:value="2" />
-							<input type="hidden" name="incomeName" th:value="${income.incomeName}" />
-							<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-						</form>
-					</td>
-				</tr>
 
-				<tr>
-					<td><input type="date" id="date" name="date"
-							th:value="${#temporals.format(localDate, 'yyyy-MM-dd')}" required></td>
-					<td><input type="text" id="name" name="name" placeholder="項目名を入力してください" required></td>
-					<td><input type="number" id="count" name="count" placeholder="収支を入力してください" required></td>
-					<td><button type="submit">追加</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
+	<table id="materialTable" border="1">
+		<thead>
+			<tr bgcolor="silver">
+				<th>日時</th>
+				<th>項目名</th>
+				<th>収支(円)</th>
+				<th>-</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${incomes == null || #lists.isEmpty(incomes)}">
+				<td colspan="4">収支がありません</td>
+			</tr>
+			<tr th:each="income : ${incomes}">
+				<td>
+					<button type="button" class="openModalBtn" data-modal-type="date"
+						th:attr="data-income-date=${income.incomeDate}, data-income-name=${income.incomeName}">
+						<span th:text="${income.incomeDate}">ボタン</span>
+					</button>
+				</td>
+				<td>
+					<button type="button" class="openModalBtn" data-modal-type="name"
+						th:attr="data-income-name=${income.incomeName}">
+						<span th:text="${income.incomeName}">ボタン</span>
+					</button>
+				</td>
+				<td>
+					<button type="button" class="openModalBtn" data-modal-type="count"
+						th:attr="data-income-count=${income.incomeCount}, data-income-name=${income.incomeName}"
+						th:style="${income.incomeCount > 0} ? 'background-color: #FF2994;' : 'background-color: #2929FF;'">
+						<span th:text="${income.incomeCount}">ボタン</span>
+					</button>
+				</td>
+				<td>
+					<form th:action="@{/delete}" method="post">
+						<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
+						<input type="hidden" name="id" th:value="2" />
+						<input type="hidden" name="incomeName" th:value="${income.incomeName}" />
+						<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+					</form>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+	<div class="add-container">
+		<div class="button-container">
+			<button type="button" class="openModalBtn" data-modal-type="add">追加</button>
+		</div>
+	</div>
 
 	<!-- モーダルテンプレート -->
 	<div class="modal" id="modalTemplate1">
@@ -140,7 +137,7 @@
 			</form>
 		</div>
 	</div>
-
+	</div>
 	<div class="modal" id="modalTemplate2">
 		<div class="modal-content">
 			<span class="close">&times;</span>
@@ -164,6 +161,22 @@
 			</form>
 		</div>
 	</div>
+
+	<div class="modal" id="modalTemplate4">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<form class="modalForm" method="get">
+				<label for="modalCount" class="modalLabel">追加する収支データを入力してください:</label><br>
+				<input type="date" id="modalDate" name="modalDate"
+					th:value="${#temporals.format(localDate, 'yyyy-MM-dd')}" required><br>
+				<input type="text" id="modalName" name="modalName" placeholder="項目名を入力してください" required><br>
+				<input type="number" id="modalCount" name="modalCount" placeholder="収支を入力してください" required><br>
+				<input type="hidden" class="hiddenModalData" name="modalData">
+				<input type="submit" value="送信">
+			</form>
+		</div>
+	</div>
+
 	<!-- JavaScriptでモーダルの開閉を管理 -->
 	<script src="/js/income.js"></script>
 </body>

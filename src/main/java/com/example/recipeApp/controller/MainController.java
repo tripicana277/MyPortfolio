@@ -1,9 +1,6 @@
 package com.example.recipeApp.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.recipeApp.entity.RecipeMain;
+import com.example.recipeApp.entity.RecipeMain.Image;
 import com.example.recipeApp.entity.RecipeMain.RecipeSubHowToMake;
 import com.example.recipeApp.entity.RecipeMain.RecipeSubMaterial;
 import com.example.recipeApp.service.RecipeLogic;
@@ -28,7 +26,7 @@ public class MainController {
 
 	@Autowired
 	private RecipeLogic recipeLogic;
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	// 新しいレシピの追加 (POST)
@@ -46,8 +44,8 @@ public class MainController {
 		    logger.debug("TestTakeda6");
 
 			// ファイルアップロード
-			String uploadedFileName = uploadFile(file);
-			if (uploadedFileName == null) {
+			Image fileName = uploadFile(file);
+			if (fileName == null) {
 				logger.warn("メインレシピ画像がアップロードされていません");
 			}
 
@@ -58,14 +56,23 @@ public class MainController {
 			List<RecipeSubHowToMake> recipeSubHowToMakes = createRecipeSubHowToMakes(howToMakeFiles, howToMakes);
 
 			// RecipeMainオブジェクトを作成
-			RecipeMain recipeMain = new RecipeMain(recipeName, uploadedFileName, comment, number, recipeSubMaterials,
+			RecipeMain recipeMain = new RecipeMain(recipeName, fileName, comment, number, recipeSubMaterials,
 					recipeSubHowToMakes);
-
 		    logger.debug("TestTakeda7");
 			
 			// レシピ保存
-			recipeLogic.addRecipe(recipeMain); // 単一のオブジェクトとして保存
-			model.addAttribute("recipe", recipeMain);
+		    RecipeMain  recipeMainTmp = recipeLogic.addRecipe(recipeMain); // 単一のオブジェクトとして保存
+
+//		    Recipe recipe = recipeService.findById(id);
+//		    
+//		    if (recipe != null && recipe.getImagefile() != null && recipe.getImagefile().getFileData() != null) {
+//		        String base64EncodedImage = Base64.getEncoder().encodeToString(recipe.getImagefile().getFileData());
+//		        model.addAttribute("base64Image", recipeMainTmp.getImagefile().getFileDataView());
+//		    }
+			
+//			model.addAttribute("recipe", recipeMain);
+			model.addAttribute("recipe", recipeMainTmp); // 最初のレシピを表示
+
 			logger.debug("新しいレシピが追加されました: {}", recipeName);
 
 		} catch (IOException | SQLException e) {
@@ -81,6 +88,7 @@ public class MainController {
 	    try {
 	        logger.debug("レシピの取得処理を開始");
 	        List<RecipeMain> recipeList = recipeLogic.getAllRecipes();
+	        
 	        logger.debug("取得したレシピ数: {}", recipeList.size());
 	        model.addAttribute("recipeList", recipeList);
 	    } catch (SQLException e) {
@@ -97,12 +105,11 @@ public class MainController {
 	@GetMapping("/recipe")
 	public String getRecipe(@RequestParam("button") String recipeName, Model model) {
 		try {
-			List<RecipeMain> recipeList = recipeLogic.getRecipeByName(recipeName);
-			if (recipeList.isEmpty()) {
-				logger.warn("指定されたレシピが見つかりません: {}", recipeName);
-				return "error"; // レシピが見つからない場合
-			}
-			model.addAttribute("recipe", recipeList.get(0)); // 最初のレシピを表示
+			RecipeMain recipeMain = recipeLogic.getRecipeByName(recipeName);
+//			model.addAttribute("base64Image", recipeMain.getImagefile().getFileData());
+//	        model.addAttribute("base64Image", recipeMain.getImagefile().getFileDataView());
+			model.addAttribute("recipe", recipeMain); // 最初のレシピを表示
+			
 		} catch (SQLException e) {
 			logger.error("レシピの取得中にSQLエラーが発生しました", e);
 			return "error"; // エラーページにリダイレクト
@@ -125,25 +132,17 @@ public class MainController {
 	}
 
 	// ファイルアップロード処理
-	private String uploadFile(MultipartFile file) throws IOException {
+	private Image uploadFile(MultipartFile file) throws IOException {
 		if (file.isEmpty()) {
 			logger.warn("アップロードされたファイルが空です");
 			return null;
 		}
-
-		String fileName = file.getOriginalFilename();
-		Path uploadDir = Path.of("uploads");
-
-		if (Files.notExists(uploadDir)) {
-			Files.createDirectories(uploadDir);
-			logger.debug("アップロードディレクトリを作成しました: {}", uploadDir.toString());
-		}
-
-		Path filePath = uploadDir.resolve(fileName);
-		Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-		logger.debug("ファイルをアップロードしました: {}", filePath.toString());
-
-		return fileName;
+		
+		Image image = new RecipeMain().new Image();
+		image.setFileName(file.getOriginalFilename());
+		image.setFileData(file.getBytes());
+//		image.setFileData(Base64.getEncoder().encodeToString(convertToJpeg(file.getBytes())));
+		return image;
 	}
 
 	// 材料リストの作成
@@ -163,12 +162,14 @@ public class MainController {
 			throws IOException {
 		List<RecipeSubHowToMake> recipeSubHowToMakes = new ArrayList<>();
 		for (int i = 0; i < files.size(); i++) {
-			String fileName = uploadFile(files.get(i));
+			Image image = uploadFile(files.get(i));
 			RecipeSubHowToMake sub = new RecipeMain().new RecipeSubHowToMake();
-			sub.setFileName2(fileName);
+			sub.setImagefile2(image);
 			sub.setHowToMake(howToMakes[i]);
 			recipeSubHowToMakes.add(sub);
 		}
 		return recipeSubHowToMakes;
 	}
+	
+
 }

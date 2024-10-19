@@ -1,4 +1,6 @@
+/META-INF/
+/application.properties
 /com/
-/templates/
-/static/
 /schema.sql
+/static/
+/templates/

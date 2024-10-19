@@ -15,26 +15,24 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				//				.csrf().disable() // CSRF保護を無効化
+				// .csrf().disable() // 必要であればCSRF保護を無効化
 				.authorizeHttpRequests(authorize -> authorize
-						//  静的リソースとログインページは許可
+						// 静的リソースとログイン、メインメニュー、登録ページは許可
 						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", "/login", "/register")
-						//						.requestMatchers("/css/**", "/images/**", "/uploads/**", "/js/**", "/resipe", "/recipeAll",
-						//								"/recipeImageView", "/income", "/statistics", "/mainmenu", "/register", "/login",
-						//								"/register")
 						.permitAll()
-						.anyRequest().authenticated() // その他は認証が必要
-				)
+						// それ以外のページは認証が必要
+						.anyRequest().authenticated())
 				.formLogin(form -> form
-						.loginPage("/loginpage")
-						.loginProcessingUrl("/login") // POSTリクエストで送信されるURL
-						.defaultSuccessUrl("/mainmenu", true)
-						.failureUrl("/loginpage?error=true") // ログイン失敗時のURL
+						.loginPage("/loginpage") // カスタムログインページ
+						.loginProcessingUrl("/login") // ログイン処理のURL
+						.defaultSuccessUrl("/mainmenu", true) // ログイン成功時のリダイレクト先
+						.failureUrl("/loginpage?error=true") // ログイン失敗時のリダイレクト先
 						.permitAll())
 				.logout(logout -> logout
-						.logoutUrl("/logout") // ログアウトURL
-						.logoutSuccessUrl("/loginpage?logout=true") // ログアウト成功時にリダイレクト
+						.logoutUrl("/logout") // ログアウトのURL
+						.logoutSuccessUrl("/loginpage?logout=true") // ログアウト成功後のリダイレクト先
 						.permitAll());
+
 		return http.build();
 	}
 
