@@ -12,7 +12,7 @@ public class LoginController {
     @GetMapping("/loginpage")
     public String showLoginPage() {
         // "login.html"テンプレートを表示
-        return "/login/login";
+        return "login/login";
     }
     
     // メインメニュー画面を表示するメソッド
