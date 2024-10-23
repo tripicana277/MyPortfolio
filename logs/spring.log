@@ -1,34 +1,30 @@
-2024-10-16T16:59:54.599+09:00  INFO 29608 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : Starting SpringBootSampleApplication using Java 21.0.3 with PID 29608 (C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main started by tropi in C:\eclipse\workspace\SpringBootSample\SpringBootSample)
-2024-10-16T16:59:54.600+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : Running with Spring Boot v3.3.4, Spring v6.1.13
-2024-10-16T16:59:54.601+09:00  INFO 29608 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : No active profile set, falling back to 1 default profile: "default"
-2024-10-16T16:59:54.601+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.boot.SpringApplication               : Loading source class com.example.SpringBootSampleApplication
-2024-10-16T16:59:54.631+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : Matching URLs for reloading : [file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/main/, file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/default/]
-2024-10-16T16:59:54.632+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.b.d.settings.DevToolsSettings        : Included patterns for restart : []
-2024-10-16T16:59:54.632+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.b.d.settings.DevToolsSettings        : Excluded patterns for restart : [/spring-boot-starter-[\w-]+/, /spring-boot/(bin|build|out)/, /spring-boot-starter/(bin|build|out)/, /spring-boot-devtools/(bin|build|out)/, /spring-boot-actuator/(bin|build|out)/, /spring-boot-autoconfigure/(bin|build|out)/]
-2024-10-16T16:59:54.632+09:00  INFO 29608 --- [SpringBootSample] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-10-16T16:59:54.632+09:00  INFO 29608 --- [SpringBootSample] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-10-16T16:59:54.632+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@75ce5aa4
-2024-10-16T16:59:54.644+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
-2024-10-16T16:59:54.652+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory'
-2024-10-16T16:59:54.697+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\config\SecurityConfig.class]
-2024-10-16T16:59:54.704+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\config\WebConfig.class]
-2024-10-16T16:59:54.718+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\controller\MainController.class]
-2024-10-16T16:59:54.728+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\entity\Components.class]
-2024-10-16T16:59:54.743+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\service\IncomeLogic.class]
-2024-10-16T16:59:54.756+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\service\IncomeService.class]
-2024-10-16T16:59:54.764+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\LoginController.class]
-2024-10-16T16:59:54.770+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\LoginService.class]
-2024-10-16T16:59:54.775+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\RegistrationController.class]
-2024-10-16T16:59:54.780+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\UserService.class]
-2024-10-16T16:59:54.784+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\MoveController.class]
-2024-10-16T16:59:54.789+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\controller\MainController.class]
-2024-10-16T16:59:54.802+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\service\RecipeLogic.class]
-2024-10-16T16:59:54.810+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\service\RecipeService.class]
-2024-10-16T16:59:55.040+09:00 DEBUG 29608 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 56567) op = 82
-2024-10-16T16:59:55.041+09:00 DEBUG 29608 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 56567) op = 80
-2024-10-16T16:59:55.041+09:00 DEBUG 29608 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.loader                           : RMI TCP Connection(2)-127.0.0.1: name = "javax.management.ObjectName", codebase = ""
-2024-10-16T16:59:55.041+09:00 DEBUG 29608 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] javax.management.remote.rmi              : connectionId=rmi://127.0.0.1  1, name=org.springframework.boot:type=Admin,name=SpringApplication, attribute=Ready
-2024-10-16T16:59:55.042+09:00 DEBUG 29608 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.server.call                      : RMI TCP Connection(2)-127.0.0.1: [127.0.0.1] exception: 
+2024-10-23T16:29:30.775+09:00  INFO 25796 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : Starting SpringBootSampleApplication using Java 21.0.4 with PID 25796 (C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main started by tropi in C:\eclipse\workspace\SpringBootSample\SpringBootSample)
+2024-10-23T16:29:30.785+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : Running with Spring Boot v3.3.4, Spring v6.1.13
+2024-10-23T16:29:30.787+09:00  INFO 25796 --- [SpringBootSample] [restartedMain] c.example.SpringBootSampleApplication    : No active profile set, falling back to 1 default profile: "default"
+2024-10-23T16:29:30.788+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.boot.SpringApplication               : Loading source class com.example.SpringBootSampleApplication
+2024-10-23T16:29:30.851+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : Matching URLs for reloading : [file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/main/, file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/default/]
+2024-10-23T16:29:30.851+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.b.d.settings.DevToolsSettings        : Included patterns for restart : []
+2024-10-23T16:29:30.851+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.b.d.settings.DevToolsSettings        : Excluded patterns for restart : [/spring-boot-starter-[\w-]+/, /spring-boot/(bin|build|out)/, /spring-boot-starter/(bin|build|out)/, /spring-boot-devtools/(bin|build|out)/, /spring-boot-actuator/(bin|build|out)/, /spring-boot-autoconfigure/(bin|build|out)/]
+2024-10-23T16:29:30.851+09:00  INFO 25796 --- [SpringBootSample] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-10-23T16:29:30.851+09:00  INFO 25796 --- [SpringBootSample] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-10-23T16:29:30.852+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3c8abe28
+2024-10-23T16:29:30.879+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+2024-10-23T16:29:30.895+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.b.f.s.DefaultListableBeanFactory     : Creating shared instance of singleton bean 'org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory'
+2024-10-23T16:29:30.998+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\controller\MainController.class]
+2024-10-23T16:29:31.013+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\model\Components.class]
+2024-10-23T16:29:31.022+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\service\IncomeLogic.class]
+2024-10-23T16:29:31.028+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\incomeApp\service\IncomeService.class]
+2024-10-23T16:29:31.053+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\config\SecurityConfig.class]
+2024-10-23T16:29:31.068+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\controller\LoginController.class]
+2024-10-23T16:29:31.078+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\controller\RegistrationController.class]
+2024-10-23T16:29:31.122+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\service\LoginService.class]
+2024-10-23T16:29:31.133+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\login\service\RegistrationService.class]
+2024-10-23T16:29:31.145+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\controller\MainController.class]
+2024-10-23T16:29:31.172+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 51606) op = 82
+2024-10-23T16:29:31.173+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 51606) op = 80
+2024-10-23T16:29:31.174+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.loader                           : RMI TCP Connection(2)-127.0.0.1: name = "javax.management.ObjectName", codebase = ""
+2024-10-23T16:29:31.175+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] javax.management.remote.rmi              : connectionId=rmi://127.0.0.1  1, name=org.springframework.boot:type=Admin,name=SpringApplication, attribute=Ready
+2024-10-23T16:29:31.176+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.server.call                      : RMI TCP Connection(2)-127.0.0.1: [127.0.0.1] exception: 
 
 javax.management.InstanceNotFoundException: org.springframework.boot:type=Admin,name=SpringApplication
 	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getMBean(DefaultMBeanServerInterceptor.java:1073) ~[na:na]
@@ -54,11 +50,43 @@ javax.management.InstanceNotFoundException: org.springframework.boot:type=Admin,
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
 
-2024-10-16T16:59:55.159+09:00  WARN 29608 --- [SpringBootSample] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to process import candidates for configuration class [com.example.SpringBootSampleApplication]: Error processing condition on org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration$DifferentManagementContextConfiguration
-2024-10-16T16:59:55.162+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Creating new Restarter for thread Thread[#1,main,5,main]
-2024-10-16T16:59:55.162+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Immediately restarting application
-2024-10-16T16:59:55.162+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Starting application com.example.SpringBootSampleApplication with URLs [file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/main/, file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/default/]
-2024-10-16T16:59:55.171+09:00 DEBUG 29608 --- [SpringBootSample] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+2024-10-23T16:29:31.209+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\service\RecipeLogic.class]
+2024-10-23T16:29:31.225+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.c.a.ClassPathBeanDefinitionScanner   : Identified candidate component class: file [C:\eclipse\workspace\SpringBootSample\SpringBootSample\bin\main\com\example\recipeApp\service\RecipeService.class]
+2024-10-23T16:29:31.688+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 51606) op = 82
+2024-10-23T16:29:31.690+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.transport.tcp                    : RMI TCP Connection(2)-127.0.0.1: (port 51606) op = 80
+2024-10-23T16:29:31.690+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.loader                           : RMI TCP Connection(2)-127.0.0.1: name = "javax.management.ObjectName", codebase = ""
+2024-10-23T16:29:31.692+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] javax.management.remote.rmi              : connectionId=rmi://127.0.0.1  1, name=org.springframework.boot:type=Admin,name=SpringApplication, attribute=Ready
+2024-10-23T16:29:31.693+09:00 DEBUG 25796 --- [SpringBootSample] [RMI TCP Connection(2)-127.0.0.1] sun.rmi.server.call                      : RMI TCP Connection(2)-127.0.0.1: [127.0.0.1] exception: 
+
+javax.management.InstanceNotFoundException: org.springframework.boot:type=Admin,name=SpringApplication
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getMBean(DefaultMBeanServerInterceptor.java:1073) ~[na:na]
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.getAttribute(DefaultMBeanServerInterceptor.java:632) ~[na:na]
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.getAttribute(JmxMBeanServer.java:679) ~[na:na]
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1449) ~[na:na]
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310) ~[na:na]
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405) ~[na:na]
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.getAttribute(RMIConnectionImpl.java:639) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360) ~[na:na]
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200) ~[na:na]
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197) ~[na:na]
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:714) ~[na:na]
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196) ~[na:na]
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:598) ~[na:na]
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:844) ~[na:na]
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:721) ~[na:na]
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400) ~[na:na]
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:720) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2024-10-23T16:29:31.934+09:00  WARN 25796 --- [SpringBootSample] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to process import candidates for configuration class [com.example.SpringBootSampleApplication]: Error processing condition on org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration$DifferentManagementContextConfiguration
+2024-10-23T16:29:31.940+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Creating new Restarter for thread Thread[#1,main,5,main]
+2024-10-23T16:29:31.940+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Immediately restarting application
+2024-10-23T16:29:31.940+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] o.s.boot.devtools.restart.Restarter      : Starting application com.example.SpringBootSampleApplication with URLs [file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/main/, file:/C:/eclipse/workspace/SpringBootSample/SpringBootSample/bin/default/]
+2024-10-23T16:29:31.962+09:00 DEBUG 25796 --- [SpringBootSample] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
 
 
 ============================
@@ -189,7 +217,7 @@ Positive matches:
       - @ConditionalOnProperty (spring.h2.console.enabled=true) matched (OnPropertyCondition)
 
    HealthEndpointAutoConfiguration matched:
-      - @ConditionalOnAvailableEndpoint marked as exposed by a 'management.endpoints.jmx.exposure' property (OnAvailableEndpointCondition)
+      - @ConditionalOnAvailableEndpoint marked as exposed by a 'management.endpoints.web.exposure' property (OnAvailableEndpointCondition)
 
    HealthEndpointWebExtensionConfiguration matched:
       - found 'session' scope (OnWebApplicationCondition)
@@ -739,7 +767,7 @@ Negative matches:
 
    ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration:
       Did not match:
-         - ErrorTemplate Missing found template from org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider@66f3a294 (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
+         - ErrorTemplate Missing found template from org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider@27f80726 (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
       Matched:
          - @ConditionalOnProperty (server.error.whitelabel.enabled) matched (OnPropertyCondition)
 
@@ -1505,7 +1533,7 @@ Unconditional classes:
 
 
 
-2024-10-16T16:59:55.196+09:00 ERROR 29608 --- [SpringBootSample] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+2024-10-23T16:29:32.024+09:00 ERROR 25796 --- [SpringBootSample] [restartedMain] o.s.boot.SpringApplication               : Application run failed
 
 org.springframework.beans.factory.BeanDefinitionStoreException: Failed to process import candidates for configuration class [com.example.SpringBootSampleApplication]: Error processing condition on org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextAutoConfiguration$DifferentManagementContextConfiguration
 	at org.springframework.context.annotation.ConfigurationClassParser.processImports(ConfigurationClassParser.java:544) ~[spring-context-6.1.13.jar:6.1.13]
@@ -1526,7 +1554,7 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to proces
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.4.jar:3.3.4]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.4.jar:3.3.4]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.4.jar:3.3.4]
-	at com.example.SpringBootSampleApplication.main(SpringBootSampleApplication.java:12) ~[main/:na]
+	at com.example.SpringBootSampleApplication.main(SpringBootSampleApplication.java:10) ~[main/:na]
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.3.4.jar:3.3.4]

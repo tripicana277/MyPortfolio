@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div class="login-container">
+		<h1>ログイン画面</h1>
+
+		<!-- ログイン失敗時のエラーメッセージ表示 -->
+		<div th:if="${param.error}">
+			<p style="color:red;">ユーザー名またはパスワードが無効です。</p>
+		</div>
+
+		<!-- ログインフォーム -->
+		<form th:action="@{/login}" method="post">
+			<div class="input-field">
+				<label for="username">ユーザー名:</label>
+				<input type="text" id="username" name="username" value="admin" required />
+			</div>
+			<div class="input-field">
+				<label for="password">パスワード:</label>
+				<input type="password" id="password" name="password" value="admin" required />
+			</div>
+			<div class="submit-field">
+				<button type="submit">ログイン</button>
+			</div>
+		</form>
+
+		<!-- 新規登録ページへのリンク -->
+		<form th:action="@{/register}" method="get">
+			<div class="submit-field">
+				<button type="submit">新規登録</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

@@ -1,25 +1,27 @@
 package com.example.recipeApp.service;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.recipeApp.entity.RecipeMain;
-import com.example.recipeApp.entity.RecipeMain.Image;
-import com.example.recipeApp.entity.RecipeMain.RecipeSubHowToMake;
-import com.example.recipeApp.entity.RecipeMain.RecipeSubMaterial;
+import com.example.recipeApp.model.RecipeMain;
+import com.example.recipeApp.model.RecipeMain.Image;
+import com.example.recipeApp.model.RecipeMain.RecipeSubHowToMake;
+import com.example.recipeApp.model.RecipeMain.RecipeSubMaterial;
 
-@Repository
+@Service
+@Transactional // トランザクションを管理して、データ整合性を確保
 public class RecipeService {
 
-	// SQLクエリ
+	// SQLクエリ定数
 	private static final String SELECT_RECIPEMAIN = "SELECT * FROM RECIPEMAIN";
 	private static final String SELECT_RECIPEMAIN_BY_NAME = "SELECT * FROM RECIPEMAIN WHERE RECIPENAME = ?";
 	private static final String SELECT_MATERIAL_BY_NAME = "SELECT * FROM MATERIAL WHERE RECIPENAME = ?";
@@ -30,97 +32,164 @@ public class RecipeService {
 	private static final String DELETE_RECIPEMAIN_BY_NAME = "DELETE FROM RECIPEMAIN WHERE RECIPENAME = ?";
 
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate; // データベース操作用のJdbcTemplateを注入
 
-	private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
+	// ログの出力に使うLoggerの宣言
+	// private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
-	// 新しいレシピを挿入するメソッド
-	@Transactional
-	public String addOne(RecipeMain recipeMain) {
+	/**
+	 * レシピの追加処理
+	 * @param recipeMain - 追加するレシピデータ
+	 * @return String - 追加されたレシピの名前
+	 */
+	public String addOne(RecipeMain recipeMain) throws Exception {
 
-		logger.debug("TestTakeda");
+		// レシピメイン情報をデータベースに挿入
+		jdbcTemplate.update(INSERT_RECIPEMAIN, recipeMain.getRecipeName(),
+				recipeMain.getImagefile().getFileName(),
+				recipeMain.getImagefile().getFileData(),
+				recipeMain.getComment(),
+				recipeMain.getNumber());
 
-		// レシピメイン情報を挿入
-		jdbcTemplate.update(INSERT_RECIPEMAIN, recipeMain.getRecipeName(), recipeMain.getImagefile().getFileName(),
-				recipeMain.getImagefile().getFileData(), recipeMain.getComment(), recipeMain.getNumber());
-
-		logger.debug("TestTakeda2");
-
-		// 材料と作り方を挿入
+		// 材料リストと作り方リストをそれぞれ挿入
 		insertMaterials(recipeMain);
 		insertHowToMakes(recipeMain);
 
-		logger.debug("TestTakeda3");
-
-		return recipeMain.getRecipeName();
+		return recipeMain.getRecipeName(); // 挿入されたレシピの名前を返す
 	}
 
-	// レシピを名前で取得するメソッド
-	public RecipeMain getOne(String name) {
+	/**
+	 * 個別レシピの取得処理
+	 * @param name - 取得するレシピの名前
+	 * @return RecipeMain - 取得されたレシピ
+	 */
+	public RecipeMain getOne(String name) throws Exception {
+		// レシピのメイン情報をデータベースから取得
+		List<RecipeMain> recipeMainList = jdbcTemplate.query(
+//				List<RecipeMain> recipeMainList = jdbcTemplate.query(
+				SELECT_RECIPEMAIN_BY_NAME,
+				(PreparedStatement ps) -> {
+					ps.setString(1, name);
+				},
+				recipeMainRowMapper() // ジェネリクスを確認
+		);
 
-		RecipeMain recipeMain = jdbcTemplate.queryForObject(SELECT_RECIPEMAIN_BY_NAME, new Object[] { name },
-				recipeMainRowMapper());
+		// 結果が空でない場合は、最初のレコードを取得
+		if (!recipeMainList.isEmpty()) {
+			RecipeMain recipeMain = recipeMainList.get(0);
 
-		if (recipeMain != null) {
+			// 材料と作り方を追加で取得
 			recipeMain.setRecipeSubMaterials(fetchMaterials(name));
 			recipeMain.setRecipeSubHowToMakes(fetchHowToMakes(name));
+
+			return recipeMain;
 		}
-		return recipeMain;
+
+		// 該当するレコードがない場合はnullを返す
+		return null;
 	}
 
-	// 全てのレシピを取得するメソッド
-	public List<RecipeMain> getAll() {
+	/**
+	 * 全レシピの取得処理
+	 * @return List<RecipeMain> - すべてのレシピのリスト
+	 */
+	public List<RecipeMain> getAll() throws Exception {
+		// データベースから全てのレシピを取得
 		return jdbcTemplate.query(SELECT_RECIPEMAIN, recipeMainRowMapper());
 	}
 
-	// レシピを削除するメソッド
+	/**
+	 * レシピの削除処理
+	 * @param name - 削除するレシピの名前
+	 */
 	public void deleteOne(String name) {
+		// 指定されたレシピをデータベースから削除
 		jdbcTemplate.update(DELETE_RECIPEMAIN_BY_NAME, name);
 	}
 
-	// 材料リストを取得するメソッド
-	private List<RecipeSubMaterial> fetchMaterials(String name) {
-		return jdbcTemplate.query(SELECT_MATERIAL_BY_NAME, new Object[] { name }, recipeSubMaterialRowMapper());
+	/**
+	 * 材料リストの取得処理
+	 * @param name - レシピの名前
+	 * @return List<RecipeSubMaterial> - 取得された材料リスト
+	 */
+	private List<RecipeSubMaterial> fetchMaterials(String name) throws Exception {
+		// 材料リストをデータベースから取得
+		return jdbcTemplate.query(SELECT_MATERIAL_BY_NAME,
+				(PreparedStatement ps) -> {
+					ps.setString(1, name);
+				},
+				recipeSubMaterialRowMapper() // ジェネリクスを確認
+		);
 	}
 
-	// 作り方リストを取得するメソッド
-	private List<RecipeSubHowToMake> fetchHowToMakes(String name) {
-		return jdbcTemplate.query(SELECT_HOWTOMAKE_BY_NAME, new Object[] { name }, recipeSubHowToMakeRowMapper());
+	/**
+	 * 作り方リストの取得処理
+	 * @param name - レシピの名前
+	 * @return List<RecipeSubHowToMake> - 取得された作り方リスト
+	 */
+	private List<RecipeSubHowToMake> fetchHowToMakes(String name) throws Exception {
+		// 材料リストをデータベースから取得
+		return jdbcTemplate.query(SELECT_HOWTOMAKE_BY_NAME,
+				(PreparedStatement ps) -> {
+					ps.setString(1, name);
+				},
+				recipeSubHowToMakeRowMapper() // ジェネリクスを確認
+		);
 	}
 
-	// 材料を挿入するメソッド
-	private void insertMaterials(RecipeMain recipeMain) {
+	/**
+	 * 材料の挿入処理
+	 * @param recipeMain - 挿入するレシピのメイン情報
+	 */
+	private void insertMaterials(RecipeMain recipeMain) throws Exception {
+		// 各材料をデータベースに挿入
 		for (RecipeSubMaterial sub : recipeMain.getRecipeSubMaterials()) {
 			jdbcTemplate.update(INSERT_MATERIAL, recipeMain.getRecipeName(), sub.getMaterial(), sub.getQuantity());
 		}
 	}
 
-	// 作り方を挿入するメソッド
+	/**
+	 * 作り方の挿入処理
+	 * @param recipeMain - 挿入するレシピのメイン情報
+	 */
 	private void insertHowToMakes(RecipeMain recipeMain) {
+		// 各作り方をデータベースに挿入
 		for (RecipeSubHowToMake sub : recipeMain.getRecipeSubHowToMakes()) {
 			jdbcTemplate.update(INSERT_HOWTOMAKE, recipeMain.getRecipeName(), sub.getImagefile2().getFileName(),
 					sub.getImagefile2().getFileData(), sub.getHowToMake());
 		}
 	}
 
-	// RecipeMainのRowMapper
-	private RowMapper<RecipeMain> recipeMainRowMapper() {
+	/**
+	 * RecipeMainのRowMapper
+	 * データベースの結果セットをRecipeMainオブジェクトにマッピング
+	 * @return recipeMainList レシピリスト
+	 */
+	private RowMapper<RecipeMain> recipeMainRowMapper() throws Exception {
 		return (rs, rowNum) -> {
+			// データベースの列から値を取得
 			String recipeName = rs.getString("recipeName");
 
-			Image image = new RecipeMain().new Image();
-			image.setFileName(rs.getString("fileName"));
-			image.setFileDataView(Base64.getEncoder().encodeToString(rs.getBytes("fileData")));
+			// 画像データをエンコードしてImageオブジェクトに設定
+			Image image = createImageFromResultSet(rs, "fileName", "fileData");
 
+			// レシピのコメントと人数を設定
 			String comment = rs.getString("comment");
 			String number = rs.getString("number");
+
+			// RecipeMainオブジェクトを返す
 			return new RecipeMain(recipeName, image, comment, number);
 		};
 	}
 
-	// RecipeSubMaterialのRowMapper
-	private RowMapper<RecipeSubMaterial> recipeSubMaterialRowMapper() {
+	/**
+	 * RecipeSubMaterialのRowMapper
+	 * データベースの結果セットをRecipeSubMaterialオブジェクトにマッピング
+	 * @return recipeSubMaterialList 材料データリスト
+	 */
+	private RowMapper<RecipeSubMaterial> recipeSubMaterialRowMapper() throws Exception {
 		return (rs, rowNum) -> {
+			// 材料データをRecipeSubMaterialオブジェクトに設定して返す
 			RecipeSubMaterial sub = new RecipeMain().new RecipeSubMaterial();
 			sub.setMaterial(rs.getString("material"));
 			sub.setQuantity(rs.getString("quantity"));
@@ -128,34 +197,40 @@ public class RecipeService {
 		};
 	}
 
-	// RecipeSubHowToMakeのRowMapper
-	private RowMapper<RecipeSubHowToMake> recipeSubHowToMakeRowMapper() {
+	/**
+	 * RecipeSubHowToMakeのRowMapper
+	 * データベースの結果セットをRecipeSubHowToMakeオブジェクトにマッピング
+	 * @return recipeSubHowToMakeList 作り方データリスト
+	 */
+	private RowMapper<RecipeSubHowToMake> recipeSubHowToMakeRowMapper() throws Exception {
 		return (rs, rowNum) -> {
+			// 作り方データをRecipeSubHowToMakeオブジェクトに設定して返す
 			RecipeSubHowToMake sub = new RecipeMain().new RecipeSubHowToMake();
-			Image image = new RecipeMain().new Image();
-			image.setFileName(rs.getString("fileName2"));
-			image.setFileDataView(Base64.getEncoder().encodeToString(rs.getBytes("fileData2")));
+			Image image = createImageFromResultSet(rs, "fileName2", "fileData2");
 			sub.setImagefile2(image);
 			sub.setHowToMake(rs.getString("howToMake"));
 			return sub;
 		};
 	}
 
-//	private static byte[] convertToJpeg(byte[] originalImageData) throws IOException {
-//		// 画像データをByteArrayInputStreamに変換
-//		ByteArrayInputStream bais = new ByteArrayInputStream(originalImageData);
-//
-//		// 画像を読み込む (元の形式がJPEG以外の場合)
-//		BufferedImage originalImage = ImageIO.read(bais);
-//		if (originalImage == null) {
-//			throw new IOException("無効な画像フォーマットです。");
-//		}
-//
-//		// JPEG形式に変換するためにByteArrayOutputStreamを使用
-//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//		ImageIO.write(originalImage, "jpeg", baos);
-//
-//		// JPEG形式のバイトデータを返す
-//		return baos.toByteArray();
-//	}
+	/**
+	* 画像データをエンコードしてImageオブジェクトに設定
+	* @param re 現在行
+	* @param fileName ファイル名称 
+	* @param fileData ファイルデータ
+	* @return image - Imageオブジェクト
+	*/
+	public Image createImageFromResultSet(ResultSet rs, String fileName, String fileData) throws SQLException {
+		// RecipeMainクラスのインナークラスImageのインスタンスを作成
+		RecipeMain.Image image = new RecipeMain().new Image();
+
+		// ResultSetからfileName2の値を取得してセット
+		image.setFileName(rs.getString(fileName));
+
+		// ResultSetからfileData2の値を取得し、Base64エンコードしてセット
+		image.setFileDataView(Base64.getEncoder().encodeToString(rs.getBytes(fileData)));
+
+		return image;
+	}
+
 }

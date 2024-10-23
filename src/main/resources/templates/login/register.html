@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ユーザー登録</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 外部スタイルシートを読み込む -->
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<!-- ユーザー登録フォームのコンテナ -->
+	<div class="login-container">
+		<!-- タイトル -->
+		<h1>ユーザー登録</h1>
+
+		<!-- ユーザー登録フォーム -->
+		<form th:action="@{/register}" th:object="${user}" method="post">
+			<!-- ユーザー名入力フィールド -->
+			<div class="input-field">
+				<label for="username">ユーザー名:</label>
+				<!-- Thymeleafの`th:field`属性でユーザー名をバインド -->
+				<input type="text" id="username" th:field="*{username}" required /><br />
+			</div>
+
+			<!-- パスワード入力フィールド -->
+			<div class="input-field">
+				<label for="password">パスワード:</label>
+				<!-- Thymeleafの`th:field`属性でパスワードをバインド -->
+				<input type="password" id="password" th:field="*{password}" required /><br />
+			</div>
+
+			<!-- 登録ボタン -->
+			<div class="submit-field">
+				<button type="submit">登録</button>
+			</div>
+		</form>
+
+		<!-- ログインページへのリンクフォーム -->
+		<form th:action="@{/login}" method="get">
+			<div class="submit-field">
+				<!-- 戻るボタンでログインページに遷移 -->
+				<button type="submit">戻る</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

@@ -1,98 +1,96 @@
 @charset "UTF-8";
 
-/* カスタムプロパティ（CSS変数）を使用 */
+/* カスタムプロパティ（CSS変数）を使用して再利用可能なスタイルを定義 */
 :root {
-  --font-family: 'メイリオ';
-  --font-size: 18px;
-  --bg-color: #421000;
-  --btn-bg-hover: #5e2500;
-  --btn-bg-active: #3e1a00;
-  --btn-text-color: #FFFFFF;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --font-family: 'メイリオ';  /* フォントファミリーをメイリオに設定 */
+  --font-size: 18px;  /* デフォルトのフォントサイズ */
+  --bg-color: #421000;  /* 背景色に使用するカラー */
+  --btn-bg-hover: #5e2500;  /* ボタンのホバー時の背景色 */
+  --btn-bg-active: #3e1a00;  /* ボタンのクリック時の背景色 */
+  --btn-text-color: #FFFFFF;  /* ボタンのテキストカラー */
+  --border-radius: 8px;  /* ボーダーの丸み */
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* ボックスの影 */
 }
 
 body {
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  background-image: url('/images/watercolor_00686.webp');
-  background-size: cover;
-  background-position: center center;
-  color: var(--bg-color);
-  display: flex;
+  font-family: var(--font-family);  /* フォントファミリーの指定 */
+  font-size: var(--font-size);  /* フォントサイズの指定 */
+  background-image: url('/images/watercolor_00686.webp');  /* 背景画像の設定 */
+  background-size: cover;  /* 画像を全体にフィットさせる */
+  background-position: center center;  /* 背景画像の位置 */
+  color: var(--bg-color);  /* テキストの色 */
+  display: flex;  /* フレックスレイアウトで中央揃えに */
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh;  /* ビューポートの高さを100%に */
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
 }
 
 .login-container {
-  width: 300px;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  text-align: center;
+  width: 300px;  /* コンテナの幅 */
+  padding: 20px;  /* 内側の余白 */
+  background-color: rgba(255, 255, 255, 0.8);  /* 半透明の背景色 */
+  border-radius: var(--border-radius);  /* ボーダーの丸みを適用 */
+  box-shadow: var(--box-shadow);  /* コンテナに影を付ける */
+  text-align: center;  /* テキストを中央揃えに */
 }
 
+/* 画像の高さを自動調整し、コンテンツにフィットさせる */
 .auto-height-image {
     max-width: 100%; /* 親要素に基づいて幅を調整 */
     height: 200px;
 }
 
+/* 高さ300pxのバージョン */
 .auto-height-image2 {
 	max-width: 100%; /* 親要素に基づいて幅を調整 */
     height: 300px;
 }
 
+/* 高さ100pxのバージョン */
 .auto-height-image3 {
 	max-width: 100%; /* 親要素に基づいて幅を調整 */
     height: 100px;
 }
 
+/* 改行を防止し、要素を中央揃えに */
 .no-wrap {
-    white-space: nowrap; /* 改行を防止 */
-    align-items: center; /* 要素を中央揃え */
+    white-space: nowrap;
+    align-items: center;
 }
 
+/* テキストボックスの幅やサイズを自動調整 */
 .no-wrap input[type="text"] {
-    width: auto; /* テキストボックスの幅を調整 */
-    box-sizing: border-box; /* テキストボックスのサイズをボーダーやパディングを含むように調整 */
+    width: auto;
+    box-sizing: border-box; /* ボーダーやパディングを含めてサイズを調整 */
 }
 
-/* 入力フィールド共通スタイル */
+/* 入力フィールドの共通スタイル */
 input[type="date"],
 input[type="text"],
 input[type="number"],
 input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  width: 100%;  /* フル幅にする */
+  padding: 10px;  /* 内側の余白を設定 */
+  margin: 10px 0;  /* 上下にマージンを設定 */
+  border-radius: 5px;  /* ボーダーを丸くする */
+  border: 1px solid #ccc;  /* ボーダー色 */
   box-sizing: border-box;
 }
 
+/* レイアウトコンテナのスタイル：中央揃え */
 .layout-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* 要素間を均等に配置 */
   align-items: center;
   margin-bottom: 20px;
   width: 100%;
-  max-width: 850px;
+  max-width: 850px;  /* 最大幅を設定 */
   flex-wrap: wrap;
 }
-
-/* ボタンを右揃えにするためのスタイル */
-/*.button-container {*/
-/*  display: flex;*/
-/*  align-items: center;*/
-/*  justify-content: flex-end;   ボタンを右揃えに */
-/*  width: 100%;                 コンテナを画面幅いっぱいに */
-/*}*/
 
 .add-container {
   display: flex;
@@ -104,28 +102,24 @@ input[type="password"] {
   flex-wrap: wrap;
 }
 
+/* ボタンコンテナ：テーブルと同じ幅にし、右揃え */
 .button-container {
     display: flex;
-    justify-content: flex-end; /* ボタンをテーブルの右端に揃える */
-    width: 100%; /* ボタンコンテナをテーブルと同じ幅に */
-    max-width: 700px; /* テーブルの最大幅と合わせる */
-    margin-top: 10px;
-    margin-left: auto; /* 自動で左側の余白を確保し、右側に寄せる */
-}
-
-.button-right {
-    display: flex;
-    justify-content: flex-end; /* ボタンを右に寄せる */
+    justify-content: flex-end;
+	align-items: center;
     width: 100%;
+    max-width: 700px;
     margin-top: 10px;
+    margin-left: auto;  /* 右寄せ */
 }
 
-/* 左右の配置用クラス */
+/* 左揃え用のスタイル */
 .left-align {
   display: flex;
   justify-content: flex-start;
 }
 
+/* 右揃え用のスタイル */
 .right-align {
   display: flex;
   align-items: center;
@@ -137,52 +131,56 @@ input[type="password"] {
 button,
 input[type="submit"],
 input[type="button"] {
-  background-color: var(--bg-color);
-  color: var(--btn-text-color);
-  padding: 10px 20px;
-  font-size: var(--font-size);
+  background-color: var(--bg-color);  /* ボタンの背景色 */
+  color: var(--btn-text-color);  /* ボタンのテキストカラー */
+  padding: 10px 20px;  /* 内側の余白 */
+  font-size: var(--font-size);  /* フォントサイズ */
   margin: 4px;
   cursor: pointer;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius);  /* ボタンを丸くする */
   text-align: center;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;  /* ホバーやアクティブ時のアニメーション */
 }
 
+/* ボタンのホバー時のスタイル */
 button:hover,
 input[type="submit"]:hover,
 input[type="button"]:hover {
   background-color: var(--btn-bg-hover);
 }
 
+/* ボタンのアクティブ時のスタイル */
 button:active,
 input[type="submit"]:active,
 input[type="button"]:active {
   background-color: var(--btn-bg-active);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  /* ボックスシャドウを強調 */
 }
 
+/* テーブルのスタイル */
 table {
   width: 100%;
-  max-width: 700px;  /* テーブルの最大幅を狭くする */
-  min-width: 200px;  /* テーブルの最小幅をさらに狭くする */
-  table-layout: auto;  /* 各セルの幅を内容に応じて調整 */
-  border-collapse: collapse;
+  max-width: 700px;  /* テーブルの最大幅 */
+  min-width: 200px;  /* テーブルの最小幅 */
+  table-layout: auto;
+  border-collapse: collapse;  /* テーブル枠を一つにする */
   margin-top: 15px;
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);  /* テーブルに影を付ける */
   background-color: rgba(255, 255, 255, 0.85);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius);  /* テーブルの角を丸くする */
   overflow: hidden;
 }
 
+/* テーブルセルのスタイル */
 table th,
 table td {
-  text-align: center;
+  text-align: center;  /* テキストを中央揃え */
   vertical-align: middle;
-  padding: 5px;  /* パディングを小さくして、セル内の空白を減らす */
-  font-size: 0.9em;  /* フォントサイズを少し小さくする */
+  padding: 5px;
+  font-size: 0.9em;  /* フォントサイズを少し小さく */
 }
 
-
+/* 半透明のテーブルスタイル */
 .transparent-table {
   background-color: rgba(255, 255, 255, 0.5);
 }
@@ -206,7 +204,7 @@ table td {
   text-align: center;
   margin-top: 10px;
 }
-
+/* モーダルのスタイル */
 .modal {
   display: none;
   position: fixed;
@@ -235,6 +233,7 @@ table td {
   font-weight: bold;
 }
 
+/* モーダルのクローズボタンのホバー時のスタイル */
 .close:hover,
 .close:focus {
   color: black;
@@ -242,6 +241,7 @@ table td {
   cursor: pointer;
 }
 
+/* ボタンの装飾（ボーダースタイル） */
 a.btn--brown.btn--border-groove,
 button.btn--brown.btn--border-groove {
   border: 6px groove rgb(119, 30, 0);
@@ -250,35 +250,35 @@ button.btn--brown.btn--border-groove {
 /* モバイルデバイス向けのレスポンシブデザイン */
 @media (orientation: portrait)  {
   body {
-    font-size: 20px; /* フォントサイズを少し大きく */
-    padding: 30px;   /* パディングを広げる */
+    font-size: 20px;  /* フォントサイズを少し大きく */
+    padding: 30px;
   }
 
   .login-container {
-    width: 400px; /* ログインフォームの幅を少し広げる */
-    padding: 30px; /* パディングを広げる */
+    width: 400px;  /* ログインフォームの幅を広げる */
+    padding: 30px;
   }
 
   input[type="date"],
   input[type="text"],
   input[type="number"],
   input[type="password"] {
-    padding: 15px; /* フォーム入力のパディングを増やす */
+    padding: 15px;  /* フォーム入力のパディングを増やす */
   }
 
   button,
   input[type="submit"],
   input[type="button"] {
-    padding: 15px 30px; /* ボタンのパディングを増やす */
-    font-size: 20px; /* ボタンのフォントサイズも大きくする */
+    padding: 15px 30px;  /* ボタンのパディングを増やす */
+    font-size: 20px;  /* ボタンのフォントサイズも大きく */
   }
 
   .modal-content {
-    padding: 30px; /* モーダルの内部パディングを増やす */
-    max-width: 800px; /* モーダルの最大幅を増やす */
+    padding: 30px;
+    max-width: 800px;
   }
 
   table {
-    font-size: 0.9em; /* テーブル内のテキストを少し大きく */
+    font-size: 0.9em;
   }
 }

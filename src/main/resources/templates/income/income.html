@@ -2,183 +2,208 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-	<meta charset="UTF-8">
-	<title>毎月の収支管理画面</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <title>毎月の収支管理画面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 外部スタイルシートを読み込む -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 
 <body>
-	<!-- ページ全体のレイアウトコンテナ -->
-	<div class="layout-container">
-		<div class="left-align">
-			<form th:action="@{/getStatistics}" method="get">
-				<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-				<input type="hidden" name="id" th:value="2" />
-				<button type="submit">統計画面</button>
-			</form>
-		</div>
-		<div class="right-align">
-			<div sec:authorize="isAuthenticated()">
-				ユーザー認証済み:
-			</div>
-			<div sec:authentication="name">
-				ログイン情報のname値に書き換わる
-			</div>
-			<form th:action="@{/logout}" method="post">
-				<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-				<input type="submit" value="ログアウト">
-			</form>
-		</div>
-	</div>
+    <!-- ページ全体のレイアウトコンテナ -->
+    <div class="layout-container">
+        <!-- 左揃え：統計画面へのリンク -->
+        <div class="left-align">
+            <form th:action="@{/getStatistics}" method="get">
+                <!-- ユーザーIDを指定 -->
+                <input type="hidden" name="id" th:value="2" />
+                <!-- 統計画面への送信ボタン -->
+                <button type="submit">統計画面</button>
+            </form>
+        </div>
 
-	<div class="layout-container">
-		<div class="button-container">
-			<form action="/moveMainMenu" method="get">
-				<input type="submit" value="メインメニュー">
-			</form>
-		</div>
-	</div>
+        <!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
+        <div class="right-align">
+            <!-- 認証済みのユーザーであるかをチェックして表示 -->
+            <div sec:authorize="isAuthenticated()">
+                ユーザー認証済み:
+            </div>
+            <!-- ログインユーザーの名前を表示 -->
+            <div sec:authentication="name">
+                ログイン情報のname値に書き換わる
+            </div>
+            <!-- ログアウトボタン -->
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="ログアウト">
+            </form>
+        </div>
+    </div>
 
-	<h1>毎月の収支管理画面</h1>
+    <!-- メインメニューに戻るボタン -->
+    <div class="layout-container">
+        <div class="button-container">
+            <form action="/moveMainMenu" method="get">
+                <input type="submit" value="メインメニュー">
+            </form>
+        </div>
+    </div>
 
-	<p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
-		1.テキストボックスに項目を入力し、「追加」ボタンを押して収支を登録してください。<br>
-		2.登録されたデータは「削除」ボタンで削除できます。<br>
-		3.「日時」「項目名」「収支」は、それぞれのボタンを押すことで内容を変更できます。<br>
-		<span style="color: red;">※重複する「項目名」の「追加」や「変更」はできませんのでご注意ください。</span>
-	</p>
+    <!-- ページのタイトル -->
+    <h1>毎月の収支管理画面</h1>
 
-	<div class="button-group">
-		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-			<input type="hidden" name="id" th:value="1" />
-			<button type="submit">先月</button>
-		</form>
-		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-			<input type="hidden" name="id" th:value="2" />
-			<button type="submit">今月</button>
-		</form>
-		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-			<input type="hidden" name="id" th:value="3" />
-			<button type="submit">来月</button>
-		</form>
-	</div>
+    <!-- ユーザーガイドを表示 -->
+    <p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
+        1.テキストボックスに項目を入力し、「追加」ボタンを押して収支を登録してください。<br>
+        2.登録されたデータは「削除」ボタンで削除できます。<br>
+        3.「日時」「項目名」「収支」は、それぞれのボタンを押すことで内容を変更できます。<br>
+        <span style="color: red;">※重複する「項目名」の「追加」や「変更」はできませんのでご注意ください。</span>
+    </p>
 
-	<div class="date-display">
-		<span th:text="${#temporals.format(localDate, 'yyyy年M月')}"></span>
-	</div>
+    <!-- 月別のデータを切り替えるボタン群 -->
+    <div class="button-group">
+        <!-- 先月のデータを取得 -->
+        <form th:action="@{/getIncome}" method="get">
+            <input type="hidden" name="id" th:value="1" />
+            <button type="submit">先月</button>
+        </form>
 
+        <!-- 今月のデータを取得 -->
+        <form th:action="@{/getIncome}" method="get">
+            <input type="hidden" name="id" th:value="2" />
+            <button type="submit">今月</button>
+        </form>
 
-	<table id="materialTable" border="1">
-		<thead>
-			<tr bgcolor="silver">
-				<th>日時</th>
-				<th>項目名</th>
-				<th>収支(円)</th>
-				<th>-</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:if="${incomes == null || #lists.isEmpty(incomes)}">
-				<td colspan="4">収支がありません</td>
-			</tr>
-			<tr th:each="income : ${incomes}">
-				<td>
-					<button type="button" class="openModalBtn" data-modal-type="date"
-						th:attr="data-income-date=${income.incomeDate}, data-income-name=${income.incomeName}">
-						<span th:text="${income.incomeDate}">ボタン</span>
-					</button>
-				</td>
-				<td>
-					<button type="button" class="openModalBtn" data-modal-type="name"
-						th:attr="data-income-name=${income.incomeName}">
-						<span th:text="${income.incomeName}">ボタン</span>
-					</button>
-				</td>
-				<td>
-					<button type="button" class="openModalBtn" data-modal-type="count"
-						th:attr="data-income-count=${income.incomeCount}, data-income-name=${income.incomeName}"
-						th:style="${income.incomeCount > 0} ? 'background-color: #FF2994;' : 'background-color: #2929FF;'">
-						<span th:text="${income.incomeCount}">ボタン</span>
-					</button>
-				</td>
-				<td>
-					<form th:action="@{/delete}" method="post">
-						<input type="hidden" th:attr="name=${_csrf.parameterName}" th:value="${_csrf.token}" />
-						<input type="hidden" name="id" th:value="2" />
-						<input type="hidden" name="incomeName" th:value="${income.incomeName}" />
-						<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-					</form>
-				</td>
-			</tr>
+        <!-- 来月のデータを取得 -->
+        <form th:action="@{/getIncome}" method="get">
+            <input type="hidden" name="id" th:value="3" />
+            <button type="submit">来月</button>
+        </form>
+    </div>
 
-		</tbody>
-	</table>
-	<div class="add-container">
-		<div class="button-container">
-			<button type="button" class="openModalBtn" data-modal-type="add">追加</button>
-		</div>
-	</div>
+    <!-- 現在の年月を表示 -->
+    <div class="date-display">
+        <span th:text="${#temporals.format(localDate, 'yyyy年M月')}"></span>
+    </div>
 
-	<!-- モーダルテンプレート -->
-	<div class="modal" id="modalTemplate1">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<form class="modalForm" method="get">
-				<label for="modalDate" class="modalLabel">日付を入力してください:</label><br>
-				<input type="hidden" name="id" value="2">
-				<input type="date" id="modalDate" name="modalDate"><br><br>
-				<input type="hidden" class="hiddenModalData" name="incomeName">
-				<input type="hidden" name="_csrf" th:value="${_csrf.token}">
-				<input type="submit" value="送信">
-			</form>
-		</div>
-	</div>
-	</div>
-	<div class="modal" id="modalTemplate2">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<form class="modalForm" method="get">
-				<label for="modalName" class="modalLabel">項目名を入力してください:</label><br>
-				<input type="text" id="modalName" name="modalName"><br><br>
-				<input type="hidden" class="hiddenModalData" name="modalData">
-				<input type="submit" value="送信">
-			</form>
-		</div>
-	</div>
+    <!-- 収支データを表示するテーブル -->
+    <table id="materialTable" border="1">
+        <thead>
+            <tr bgcolor="silver">
+                <th>日時</th>
+                <th>項目名</th>
+                <th>収支(円)</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 収支がない場合のメッセージ -->
+            <tr th:if="${incomes == null || #lists.isEmpty(incomes)}">
+                <td colspan="4">収支がありません</td>
+            </tr>
 
-	<div class="modal" id="modalTemplate3">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<form class="modalForm" method="get">
-				<label for="modalCount" class="modalLabel">収支を入力してください:</label><br>
-				<input type="number" id="modalCount" name="modalCount"><br><br>
-				<input type="hidden" class="hiddenModalData" name="modalData">
-				<input type="submit" value="送信">
-			</form>
-		</div>
-	</div>
+            <!-- 収支リストをループして表示 -->
+            <tr th:each="income : ${incomes}">
+                <!-- 日付の変更ボタン -->
+                <td>
+                    <button type="button" class="openModalBtn" data-modal-type="date"
+                        th:attr="data-income-date=${income.incomeDate}, data-income-name=${income.incomeName}">
+                        <span th:text="${income.incomeDate}">ボタン</span>
+                    </button>
+                </td>
 
-	<div class="modal" id="modalTemplate4">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<form class="modalForm" method="get">
-				<label for="modalCount" class="modalLabel">追加する収支データを入力してください:</label><br>
-				<input type="date" id="modalDate" name="modalDate"
-					th:value="${#temporals.format(localDate, 'yyyy-MM-dd')}" required><br>
-				<input type="text" id="modalName" name="modalName" placeholder="項目名を入力してください" required><br>
-				<input type="number" id="modalCount" name="modalCount" placeholder="収支を入力してください" required><br>
-				<input type="hidden" class="hiddenModalData" name="modalData">
-				<input type="submit" value="送信">
-			</form>
-		</div>
-	</div>
+                <!-- 項目名の変更ボタン -->
+                <td>
+                    <button type="button" class="openModalBtn" data-modal-type="name"
+                        th:attr="data-income-name=${income.incomeName}">
+                        <span th:text="${income.incomeName}">ボタン</span>
+                    </button>
+                </td>
 
-	<!-- JavaScriptでモーダルの開閉を管理 -->
-	<script src="/js/income.js"></script>
+                <!-- 収支の変更ボタン -->
+                <td>
+                    <button type="button" class="openModalBtn" data-modal-type="count"
+                        th:attr="data-income-count=${income.incomeCount}, data-income-name=${income.incomeName}"
+                        th:style="${income.incomeCount > 0} ? 'background-color: #FF2994;' : 'background-color: #2929FF;'">
+                        <span th:text="${income.incomeCount}">ボタン</span>
+                    </button>
+                </td>
+
+                <!-- 削除ボタン -->
+                <td>
+                    <form th:action="@{/delete}" method="post">
+                        <input type="hidden" name="id" th:value="2" />
+                        <input type="hidden" name="incomeName" th:value="${income.incomeName}" />
+                        <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 収支データの追加ボタン -->
+    <div class="add-container">
+        <div class="button-container">
+            <button type="button" class="openModalBtn" data-modal-type="add">追加</button>
+        </div>
+    </div>
+
+    <!-- モーダルテンプレート1: 日付を入力するモーダル -->
+    <div class="modal" id="modalTemplate1">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class="modalForm" method="get">
+                <label for="modalDate" class="modalLabel">日付を入力してください:</label><br>
+                <input type="hidden" name="id" value="2">
+                <input type="date" id="modalDate" name="modalDate"><br><br>
+                <input type="hidden" class="hiddenModalData" name="incomeName">
+                <input type="submit" value="送信">
+            </form>
+        </div>
+    </div>
+
+    <!-- モーダルテンプレート2: 項目名を入力するモーダル -->
+    <div class="modal" id="modalTemplate2">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class="modalForm" method="get">
+                <label for="modalName" class="modalLabel">項目名を入力してください:</label><br>
+                <input type="text" id="modalName" name="modalName"><br><br>
+                <input type="hidden" class="hiddenModalData" name="modalData">
+                <input type="submit" value="送信">
+            </form>
+        </div>
+    </div>
+
+    <!-- モーダルテンプレート3: 収支を入力するモーダル -->
+    <div class="modal" id="modalTemplate3">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class="modalForm" method="get">
+                <label for="modalCount" class="modalLabel">収支を入力してください:</label><br>
+                <input type="number" id="modalCount" name="modalCount"><br><br>
+                <input type="hidden" class="hiddenModalData" name="modalData">
+                <input type="submit" value="送信">
+            </form>
+        </div>
+    </div>
+
+    <!-- モーダルテンプレート4: 収支データを追加するモーダル -->
+    <div class="modal" id="modalTemplate4">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class="modalForm" method="get">
+                <label for="modalCount" class="modalLabel">追加する収支データを入力してください:</label><br>
+                <input type="date" id="modalDate" name="modalDate" th:value="${#temporals.format(localDate, 'yyyy-MM-dd')}" required><br>
+                <input type="text" id="modalName" name="modalName" placeholder="項目名を入力してください" required><br>
+                <input type="number" id="modalCount" name="modalCount" placeholder="収支を入力してください" required><br>
+                <input type="hidden" class="hiddenModalData" name="modalData">
+                <input type="submit" value="送信">
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScriptでモーダルの開閉を管理 -->
+    <script src="/js/income.js"></script>
 </body>
 
 </html>

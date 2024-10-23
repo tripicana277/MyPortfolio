@@ -2,81 +2,99 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-	<meta charset="UTF-8">
-	<title>レシピ一覧</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <title>レシピ一覧</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 外部スタイルシートのリンク -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 
 <body>
-	<div class="layout-container">
-		<div class="left-align">
-			<form th:action="@{/addRecipeForm}" method="get">
-				<input type="submit" value="入力フォーム">
-			</form>
-		</div>
-		<div class="right-align">
-			<div sec:authorize="isAuthenticated()">
-				<p>ユーザー認証済み: <span sec:authentication="name">ログイン情報</span></p>
-			</div>
-			<form th:action="@{/logout}" method="post">
-				<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				<input type="submit" value="ログアウト">
-			</form>
-		</div>
-	</div>
+    <!-- レイアウトコンテナ -->
+    <div class="layout-container">
+        <!-- 左揃え：入力フォームへのリンク -->
+        <div class="left-align">
+            <form th:action="@{/addRecipeForm}" method="get">
+                <input type="submit" value="入力フォーム">
+            </form>
+        </div>
 
-	<div class="layout-container">
-		<div class="button-container">
-			<form action="/moveMainMenu" method="get">
-				<input type="submit" value="メインメニュー">
-			</form>
-		</div>
-	</div>
+        <!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
+        <div class="right-align">
+            <!-- 認証済みユーザーにログイン情報を表示 -->
+            <div sec:authorize="isAuthenticated()">
+                <p>ユーザー認証済み: <span sec:authentication="name">ログイン情報</span></p>
+            </div>
+            <!-- ログアウトボタン -->
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="ログアウト">
+            </form>
+        </div>
+    </div>
 
-	<h1>レシピ一覧</h1>
-	<table border="1">
-		<thead>
-			<tr bgcolor="silver">
-				<th>レシピ画像</th>
-				<th>レシピ名称</th>
-				<th>レシピ削除</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:if="${recipeList == null || #lists.isEmpty(recipeList)}">
-				<td colspan="3">メニューがありません。</td>
-			</tr>
+    <!-- メインメニューに戻るためのボタン -->
+    <div class="layout-container">
+        <div class="button-container">
+            <form action="/moveMainMenu" method="get">
+                <input type="submit" value="メインメニュー">
+            </form>
+        </div>
+    </div>
 
-			<tr th:each="recipe : ${recipeList}">
-				<td>
-					<!--                    <img th:if="${recipe != null && recipe.imagefile != null && recipe.imagefile.fileData != null}"-->
-					<!--                         th:src="'data:image/jpeg;base64,' + ${T(java.util.Base64).getEncoder().encodeToString(recipe.imagefile.fileData)}"-->
-					<!--                         alt="アップロードされた画像" class="auto-height-image2" />-->
-					<!--                    <p th:if="${recipe == null || recipe.imagefile == null || recipe.imagefile.fileData == null}">-->
-					<!--                         画像がアップロードされていません。-->
-					<!--                    </p>-->
-					<img th:if="${recipe.imagefile.fileDataView != null}"
-						th:src="'data:image/jpeg;base64,' + ${recipe.imagefile.fileDataView}" alt="アップロードされた画像"
-						class="auto-height-image" />
-					<p th:if="${recipe.imagefile.fileDataView == null}">画像がアップロードされていません。</p>
+    <!-- レシピ一覧のタイトル -->
+    <h1>レシピ一覧</h1>
 
-				</td>
-				<td>
-					<form th:action="@{/recipe}" method="get">
-						<input type="submit" th:value="${recipe.recipeName}" name="button" />
-					</form>
-				</td>
-				<td>
-					<form th:action="@{/deleteRecipe}" method="post">
-						<input type="hidden" name="delete" th:value="${recipe.recipeName}" />
-						<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-						<button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-					</form>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+    <!-- レシピの登録ガイドメッセージ -->
+    <p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
+        1.入力フォームで項目を入力し、「登録」ボタンを押してレシピを登録してください。<br>
+        2.登録されたデータは「削除」ボタンで削除できます。<br>
+        3.「レシピ名称」は、ボタンを押すことで内容を確認できます。<br>
+        <span style="color: red;">※重複する「項目名」の「追加」や「変更」はできませんのでご注意ください。</span>
+    </p>
+
+    <!-- レシピ一覧を表示するテーブル -->
+    <table border="1">
+        <thead>
+            <tr bgcolor="silver">
+                <th>レシピ画像</th>
+                <th>レシピ名称</th>
+                <th>レシピ削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- レシピが存在しない場合のメッセージ -->
+            <tr th:if="${recipeList == null || #lists.isEmpty(recipeList)}">
+                <td colspan="3">メニューがありません。</td>
+            </tr>
+
+            <!-- レシピリストをループして表示 -->
+            <tr th:each="recipe : ${recipeList}">
+                <td>
+                    <!-- 画像データが存在する場合は表示 -->
+                    <img th:if="${recipe.imagefile.fileDataView != null}"
+                        th:src="'data:image/jpeg;base64,' + ${recipe.imagefile.fileDataView}" alt="アップロードされた画像"
+                        class="auto-height-image" />
+                    <!-- 画像が存在しない場合のメッセージ -->
+                    <p th:if="${recipe.imagefile.fileDataView == null}">画像がアップロードされていません。</p>
+                </td>
+                <td>
+                    <!-- レシピ名称をボタンとして表示し、レシピ詳細ページに移動するフォーム -->
+                    <form th:action="@{/recipe}" method="get">
+                        <input type="submit" th:value="${recipe.recipeName}" name="button" />
+                    </form>
+                </td>
+                <td>
+                    <!-- レシピを削除するためのフォーム -->
+                    <form th:action="@{/deleteRecipe}" method="post">
+                        <!-- 削除するレシピ名を隠しフィールドに格納 -->
+                        <input type="hidden" name="delete" th:value="${recipe.recipeName}" />
+                        <!-- 削除ボタン（確認ダイアログ付き） -->
+                        <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
 </html>

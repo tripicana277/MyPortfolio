@@ -2,43 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-	<meta charset="UTF-8">
-	<title>メインメニュー</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
-	<div class="layout-container">
-		<!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
-		<div class="button-container">
-			<!-- 認証済みユーザーであるかをチェックして表示 -->
-			<div sec:authorize="isAuthenticated()">
-				ユーザー認証済み:
-			</div>
-			<!-- ログインユーザーの名前を表示 -->
-			<div sec:authentication="name">
-				ログイン情報のname値に書き換わる
-			</div>
-			<!-- ログアウトボタン -->
-			<form th:action="@{/logout}" method="post">
-				<input type="submit" value="ログアウト">
-			</form>
-		</div>
-	</div>
+    <!-- ページの文字エンコーディングをUTF-8に設定 -->
+    <meta charset="UTF-8">
+    <!-- ページのタイトルを「メインメニュー」に設定 -->
+    <title>メインメニュー</title>
+    <!-- ビューポートの設定（レスポンシブ対応） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 外部CSSファイルを読み込む -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- ページ全体のレイアウトコンテナ -->
+    <div class="layout-container">
+        <!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
+        <div class="button-container">
+            <!-- 認証済みユーザーであるかをチェックして、認証済みメッセージを表示 -->
+            <div sec:authorize="isAuthenticated()">
+                ユーザー認証済み:
+            </div>
+            <!-- ログインユーザーの名前を表示 -->
+            <div sec:authentication="name">
+                ログイン情報のname値に書き換わる
+            </div>
+            <!-- ログアウトフォーム -->
+            <form th:action="@{/logout}" method="post">
+                <!-- ログアウトボタン -->
+                <input type="submit" value="ログアウト">
+            </form>
+        </div>
+    </div>
 </head>
 
 <body>
-	<div class="login-container">
-		<!-- ページ全体のレイアウトコンテナ -->
-		<h1>メインメニュー</h1>
-		<!-- レシピの基本情報を表示するテーブル -->
-		<form th:action="@{/recipes}" method="get">
-			<input type="submit" value="レシピアプリへ移動">
-		</form>
-		<form th:action="@{/getIncome}" method="get">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-			<input type="hidden" name="id" th:value="2" />
-			<button type="submit">収支管理アプリへ移動</button>
-		</form>
-	</div>
+    <!-- ログイン後のメインメニュー表示 -->
+    <div class="login-container">
+        <!-- ページの見出し -->
+        <h1>メインメニュー</h1>
+
+        <!-- レシピアプリに移動するためのフォーム -->
+        <form th:action="@{/recipes}" method="get">
+            <input type="submit" value="レシピアプリへ移動">
+        </form>
+
+        <!-- 収支管理アプリに移動するためのフォーム -->
+        <form th:action="@{/getIncome}" method="get">
+            <!-- アプリIDを隠しフィールドに設定 -->
+            <input type="hidden" name="id" th:value="2" />
+            <!-- 収支管理アプリに移動するボタン -->
+            <button type="submit">収支管理アプリへ移動</button>
+        </form>
+    </div>
 </body>
 
 </html>

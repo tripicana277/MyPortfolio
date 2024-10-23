@@ -1,7 +1,6 @@
 package com.example.recipeApp.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +14,43 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.recipeApp.entity.RecipeMain;
-import com.example.recipeApp.entity.RecipeMain.Image;
-import com.example.recipeApp.entity.RecipeMain.RecipeSubHowToMake;
-import com.example.recipeApp.entity.RecipeMain.RecipeSubMaterial;
+import com.example.recipeApp.model.RecipeMain;
+import com.example.recipeApp.model.RecipeMain.Image;
+import com.example.recipeApp.model.RecipeMain.RecipeSubHowToMake;
+import com.example.recipeApp.model.RecipeMain.RecipeSubMaterial;
 import com.example.recipeApp.service.RecipeLogic;
 
-@Controller("recipeMainController")
+@Controller("recipeMainController") // このコントローラーを"recipeMainController"としてSpringコンテナに登録
 public class MainController {
 
+	// RecipeLogicクラスのインスタンスを自動的に注入
 	@Autowired
 	private RecipeLogic recipeLogic;
-	
+
+	// ログ用にLoggerを設定
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	// 新しいレシピの追加 (POST)
+	/**
+	 * レシピ追加ページの表示
+	 */
+	@GetMapping("/addRecipeForm")
+	public String addRecipePage() {
+		// レシピ追加フォームページ（recipe.html）を返す
+		return "recipe/recipe";
+	}
+
+	/**
+	 * レシピアプリの全体表示ページに遷移
+	 */
+	@GetMapping("/moveRecipeAll")
+	public String moveRecipeAll() {
+		// 全てのレシピを表示するページ（recipeAll.html）を返す
+		return "recipe/recipeAll";
+	}
+
+	/**
+	 * レシピの追加処理
+	 */
 	@PostMapping("/addRecipe")
 	public String addRecipe(@RequestParam("fileName") MultipartFile file,
 			@RequestParam("recipeName") String recipeName,
@@ -41,135 +62,132 @@ public class MainController {
 			@RequestParam("fileName2[]") List<MultipartFile> howToMakeFiles,
 			Model model) {
 		try {
-		    logger.debug("TestTakeda6");
-
-			// ファイルアップロード
+			// ファイルのアップロード処理
 			Image fileName = uploadFile(file);
 			if (fileName == null) {
 				logger.warn("メインレシピ画像がアップロードされていません");
 			}
 
-			// 材料リスト作成
+			// 材料リストの作成
 			List<RecipeSubMaterial> recipeSubMaterials = createRecipeSubMaterials(materials, quantities);
 
-			// 作り方リスト作成
+			// 作り方リストの作成
 			List<RecipeSubHowToMake> recipeSubHowToMakes = createRecipeSubHowToMakes(howToMakeFiles, howToMakes);
 
 			// RecipeMainオブジェクトを作成
 			RecipeMain recipeMain = new RecipeMain(recipeName, fileName, comment, number, recipeSubMaterials,
 					recipeSubHowToMakes);
-		    logger.debug("TestTakeda7");
-			
-			// レシピ保存
-		    RecipeMain  recipeMainTmp = recipeLogic.addRecipe(recipeMain); // 単一のオブジェクトとして保存
 
-//		    Recipe recipe = recipeService.findById(id);
-//		    
-//		    if (recipe != null && recipe.getImagefile() != null && recipe.getImagefile().getFileData() != null) {
-//		        String base64EncodedImage = Base64.getEncoder().encodeToString(recipe.getImagefile().getFileData());
-//		        model.addAttribute("base64Image", recipeMainTmp.getImagefile().getFileDataView());
-//		    }
-			
-//			model.addAttribute("recipe", recipeMain);
-			model.addAttribute("recipe", recipeMainTmp); // 最初のレシピを表示
+			// レシピの保存
+			RecipeMain recipeMainTmp = recipeLogic.addRecipe(recipeMain); // レシピをデータベースに保存
+			model.addAttribute("recipe", recipeMainTmp); // 保存されたレシピをビューに渡す
 
 			logger.debug("新しいレシピが追加されました: {}", recipeName);
-
-		} catch (IOException | SQLException e) {
+		} catch (Exception e) {
+			// 例外が発生した場合はエラーログを出力し、エラーページにリダイレクト
 			logger.error("レシピの追加中にエラーが発生しました", e);
-			return "error"; // エラーページにリダイレクト
+			return "error"; // エラーページに遷移
 		}
-		return "recipe/recipeImageView"; // 新しいレシピ表示ページ
+		return "recipe/recipeImageView"; // レシピ表示ページに遷移
 	}
-	
-	// レシピリストの取得 (GET)
+
+	/**
+	 * 全てのレシピを取得して表示
+	 */
 	@GetMapping("/recipes")
 	public String getRecipes(Model model) {
-	    try {
-	        logger.debug("レシピの取得処理を開始");
-	        List<RecipeMain> recipeList = recipeLogic.getAllRecipes();
-	        
-	        logger.debug("取得したレシピ数: {}", recipeList.size());
-	        model.addAttribute("recipeList", recipeList);
-	    } catch (SQLException e) {
-	        logger.error("SQLエラーが発生しました: {}", e.getMessage(), e);
-	        return "error";
-	    } catch (Exception e) {
-	        logger.error("予期せぬエラーが発生しました: {}", e.getMessage(), e);
-	        return "error";
-	    }
-	    return "recipe/recipeAll";
+		try {
+			logger.debug("レシピの取得処理を開始");
+			List<RecipeMain> recipeList = recipeLogic.getAllRecipes(); // 全レシピを取得
+			logger.debug("取得したレシピ数: {}", recipeList.size());
+			model.addAttribute("recipeList", recipeList); // レシピリストをモデルに追加
+		} catch (Exception e) {
+			// その他の例外が発生した場合もエラーログを出力し、エラーページに遷移
+			logger.error("予期せぬエラーが発生しました: {}", e.getMessage(), e);
+			return "error";
+		}
+		return "recipe/recipeAll"; // レシピ一覧ページに遷移
 	}
 
-	// 特定のレシピの取得 (GET)
+	/**
+	 * 特定のレシピを取得して表示
+	 */
 	@GetMapping("/recipe")
 	public String getRecipe(@RequestParam("button") String recipeName, Model model) {
 		try {
-			RecipeMain recipeMain = recipeLogic.getRecipeByName(recipeName);
-//			model.addAttribute("base64Image", recipeMain.getImagefile().getFileData());
-//	        model.addAttribute("base64Image", recipeMain.getImagefile().getFileDataView());
-			model.addAttribute("recipe", recipeMain); // 最初のレシピを表示
-			
-		} catch (SQLException e) {
-			logger.error("レシピの取得中にSQLエラーが発生しました", e);
-			return "error"; // エラーページにリダイレクト
+			RecipeMain recipeMain = recipeLogic.getRecipeByName(recipeName); // 指定されたレシピを取得
+			model.addAttribute("recipe", recipeMain); // 取得したレシピをモデルに追加
+		} catch (Exception e) {
+			// SQL例外が発生した場合はエラーログを出力し、エラーページに遷移
+			logger.error("レシピの取得中にエラーが発生しました", e);
+			return "error";
 		}
-		return "recipe/recipeImageView"; // 特定のレシピ表示ページ
+		return "recipe/recipeImageView"; // レシピ詳細ページに遷移
 	}
-	
-	// レシピの削除 (POST)
+
+	/**
+	 * レシピの削除処理
+	 */
 	@PostMapping("/deleteRecipe")
 	public String deleteRecipe(@RequestParam("delete") String recipeName, Model model) {
 		try {
 			logger.debug("レシピを削除しました: {}", recipeName);
-			List<RecipeMain> recipeList = recipeLogic.deleteRecipe(recipeName); // レシピ削除
-			model.addAttribute("recipeList", recipeList);
-		} catch (SQLException e) {
+			List<RecipeMain> recipeList = recipeLogic.deleteRecipe(recipeName); // 指定されたレシピを削除
+			model.addAttribute("recipeList", recipeList); // 更新されたレシピリストをモデルに追加
+		} catch (Exception e) {
+			// SQL例外が発生した場合はエラーログを出力し、エラーページに遷移
 			logger.error("レシピの削除中にエラーが発生しました", e);
-			return "error"; // エラーページにリダイレクト
+			return "error";
 		}
-		return "recipe/recipeAll"; // 更新されたレシピ一覧を表示
+		return "recipe/recipeAll"; // レシピ一覧ページに遷移
 	}
 
-	// ファイルアップロード処理
+	/**
+	 * ファイルのアップロード処理
+	 */
 	private Image uploadFile(MultipartFile file) throws IOException {
 		if (file.isEmpty()) {
 			logger.warn("アップロードされたファイルが空です");
 			return null;
 		}
-		
+		// Imageオブジェクトを作成し、アップロードされたファイルを設定
 		Image image = new RecipeMain().new Image();
 		image.setFileName(file.getOriginalFilename());
 		image.setFileData(file.getBytes());
-//		image.setFileData(Base64.getEncoder().encodeToString(convertToJpeg(file.getBytes())));
 		return image;
 	}
 
-	// 材料リストの作成
+	/**
+	 * 材料リストの作成処理
+	 */
 	private List<RecipeSubMaterial> createRecipeSubMaterials(String[] materials, String[] quantities) {
 		List<RecipeSubMaterial> recipeSubMaterials = new ArrayList<>();
 		for (int i = 0; i < materials.length; i++) {
-			RecipeSubMaterial sub = new RecipeMain().new RecipeSubMaterial();
-			sub.setMaterial(materials[i]);
-			sub.setQuantity(quantities[i]);
-			recipeSubMaterials.add(sub);
+			RecipeSubMaterial sub = new RecipeMain().new RecipeSubMaterial(); // 新しい材料サブオブジェクトを作成
+			sub.setMaterial(materials[i]); // 材料名を設定
+			sub.setQuantity(quantities[i]); // 数量を設定
+			recipeSubMaterials.add(sub); // リストに追加
 		}
 		return recipeSubMaterials;
 	}
 
-	// 作り方リストの作成
+	/**
+	 * 作り方リストの作成処理
+	 */
 	private List<RecipeSubHowToMake> createRecipeSubHowToMakes(List<MultipartFile> files, String[] howToMakes)
 			throws IOException {
 		List<RecipeSubHowToMake> recipeSubHowToMakes = new ArrayList<>();
 		for (int i = 0; i < files.size(); i++) {
-			Image image = uploadFile(files.get(i));
-			RecipeSubHowToMake sub = new RecipeMain().new RecipeSubHowToMake();
-			sub.setImagefile2(image);
-			sub.setHowToMake(howToMakes[i]);
-			recipeSubHowToMakes.add(sub);
+			// アップロードされたファイルを処理
+			Image fileName = uploadFile(files.get(i));
+			if (fileName == null) {
+				logger.warn("作り方レシピ画像がアップロードされていません");
+			}
+			RecipeSubHowToMake sub = new RecipeMain().new RecipeSubHowToMake(); // 新しい作り方サブオブジェクトを作成
+			sub.setImagefile2(fileName); // 作り方画像を設定
+			sub.setHowToMake(howToMakes[i]); // 作り方の説明を設定
+			recipeSubHowToMakes.add(sub); // リストに追加
 		}
 		return recipeSubHowToMakes;
 	}
-	
-
 }
