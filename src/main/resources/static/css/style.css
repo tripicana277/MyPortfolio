@@ -398,24 +398,28 @@ button.btn--brown.btn--border-groove {
 
 	/* 各セルのスタイル */
 	table td {
-		/* テキストを左に配置し、ラベルとデータを並べる */
-		display: flex;
-		justify-content: space-between;
-		padding: 10px;
-		text-align: left;
-		border: none;
-		position: relative;
+	    /* テキストを左に配置し、ラベルとデータを並べる */
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center; /* セル内の要素を縦方向に中央揃え */
+	    padding: 10px;
+	    text-align: left;
+	    border: none;
+	    position: relative;
 	}
 
 	/* 疑似要素で各セルに対応するヘッダーのラベルを表示 */
 	table td:before {
-		content: attr(data-label);
-		font-weight: bold;
-		width: 50%;
-		/* ラベルの幅を50%に設定 */
-		text-align: left;
-		padding-right: 10px;
-		white-space: nowrap;
-		/* ラベルの改行を防止 */
+	    content: attr(data-label);
+	    font-weight: bold;
+	    width: 50%;
+	    /* ラベルの幅を50%に設定 */
+	    text-align: left;
+	    display: flex; /* フレックスボックスにする */
+	    align-items: center; /* 縦位置を中央に */
+	    padding-right: 10px;
+	    white-space: nowrap;
+	    /* ラベルの改行を防止 */
 	}
+
 }
