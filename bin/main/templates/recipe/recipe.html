@@ -4,11 +4,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>入力フォーム</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- 外部スタイルシートのリンク -->
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
 	<!-- フォームのバリデーションや行の追加/削除を行うJavaScriptファイルを読み込む -->
 	<script src="js/recipe.js"></script>
-
 </head>
 
 <body>
@@ -20,114 +20,122 @@
 				<input type="submit" value="レシピ一覧">
 			</form>
 		</div>
-
-		<!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
-		<div class="right-align">
-			<!-- 認証済みユーザーであるかをチェックして表示 -->
-			<div sec:authorize="isAuthenticated()">
-				ユーザー認証済み:
+		<div class="user-container">
+			<!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
+			<div class="button-container">
+				<!-- 認証済みユーザーであるかをチェックして表示 -->
+				<div sec:authorize="isAuthenticated()">
+					<p>ユーザー認証済み: <span sec:authentication="name">ログイン情報</span></p>
+				</div>
+				<!-- ログアウトボタン -->
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="ログアウト">
+				</form>
 			</div>
-			<!-- ログインユーザーの名前を表示 -->
-			<div sec:authentication="name">
-				ログイン情報のname値に書き換わる
-			</div>
-			<!-- ログアウトボタン -->
-			<form th:action="@{/logout}" method="post">
-				<input type="submit" value="ログアウト">
-			</form>
 		</div>
 	</div>
 
 	<!-- メインメニューに戻るためのボタン -->
 	<div class="layout-container">
-		<div class="button-container">
+		<div class="mainmanu-container">
 			<form action="/moveMainMenu" method="get">
 				<input type="submit" value="メインメニュー">
 			</form>
 		</div>
 	</div>
+	<div class="background-container table-responsive">
+		<!-- レシピの投稿フォーム -->
+		<!--	フォームが送信される前に、JavaScript関数validateForm()を実行-->
+		<form th:action="@{/addRecipe}" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+			<h1>入力フォーム</h1>
+			<p class="centered-text" style="text-align: left;">
+				1.各項目に内容を入力してください。<br>2.全ての項目を入力した後、「レシピを登録」ボタンを押してレシピを投稿してください。
+			</p>
+			<!-- 登録ボタン -->
+			<input type="submit" value="レシピを登録">
 
-	<!-- レシピの投稿フォーム -->
-	<!--	フォームが送信される前に、JavaScript関数validateForm()を実行-->
-	<form th:action="@{/addRecipe}" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
-		<h1>入力フォーム</h1>
-		<p class="centered-text">
-			1.各項目に内容を入力してください。<br>2.全ての項目を入力した後、「登録」ボタンを押してレシピを投稿してください。
-		</p>
-		<!-- 登録ボタン -->
-		<input type="submit" value="登録">
+			<!-- レシピ名、画像、コメントを入力するテーブル -->
+			<table border="1">
+				<thead>
+					<tr bgcolor="silver">
+						<th>レシピ名称</th>
+						<th>レシピ画像ファイル<br>(.jpgのみ選択可能)</th>
+						<th>コメント</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="transparent-table">
+						<td data-label="レシピ名称"><input type="text" name="recipeName" /></td>
+						<td data-label="レシピ画像ファイル"><input type="file" name="fileName" /></td>
+						<td data-label="コメント"><input type="text" name="comment" /></td>
+					</tr>
+				</tbody>
+			</table>
 
-		<!-- レシピ名、画像、コメントを入力するテーブル -->
-		<table border="1">
-			<tr bgcolor="silver">
-				<th>レシピ名称</th>
-				<th>レシピ画像ファイル<br>(.jpgのみ選択可能)</th>
-				<th>コメント</th>
-			</tr>
-			<tr class="transparent-table">
-				<td><input type="text" name="recipeName" /></td>
-				<td><input type="file" name="fileName" /></td>
-				<td><input type="text" name="comment" /></td>
-			</tr>
-		</table>
+			<!-- 人数を入力するテーブル -->
+			<table border="1">
+				<thead>
+					<tr bgcolor="silver">
+						<th>人数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="transparent-table">
+						<!-- 人数の入力フィールド -->
+						<td data-label="人数" class="no-wrap"><input type="text" name="number">人分</td>
+					</tr>
+				</tbody>
+			</table>
 
-		<!-- 人数を入力するテーブル -->
-		<table border="1">
-			<tr bgcolor="silver">
-				<th>人数</th>
-			</tr>
-			<tr class="transparent-table">
-				<!-- 人数の入力フィールド -->
-				<td class="no-wrap"><input type="text" name="number">人分</td>
-			</tr>
-		</table>
+			<!-- 材料と数量を入力するテーブル -->
+			<table id="materialTable" border="1">
+				<thead>
+					<tr bgcolor="silver">
+						<th>材料</th>
+						<th>数量<br>(単位も含めて入力してください<br>例:「1個」「大さじ1」)</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<!-- 材料名の入力フィールド -->
+						<td data-label="材料" class="no-wrap">・<input type="text" name="material[]" /></td>
+						<!-- 数量の入力フィールド -->
+						<td data-label="数量" class="no-wrap"><input type="text" name="quantity[]" /></td>
+						<!-- 行削除ボタン -->
+						<td data-label="操作"><input type="button" value="削除"
+								onclick="deleteRow(this, 'materialTable')" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- 材料の行を追加するボタン -->
+			<button type="button" onclick="addMaterialRow()">「材料」の行を追加</button>
 
-		<!-- 材料と数量を入力するテーブル -->
-		<table id="materialTable" border="1">
-			<thead>
-				<tr bgcolor="silver">
-					<th>材料</th>
-					<th>数量<br>(単位も含めて入力してください<br>例:「1個」「大さじ1」)</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<!-- 材料名の入力フィールド -->
-					<td class="no-wrap">・<input type="text" name="material[]" /></td>
-					<!-- 数量の入力フィールド -->
-					<td class="no-wrap"><input type="text" name="quantity[]" /></td>
-					<!-- 行削除ボタン -->
-					<td><input type="button" value="削除" onclick="deleteRow(this, 'materialTable')" /></td>
-				</tr>
-			</tbody>
-		</table>
-		<!-- 材料の行を追加するボタン -->
-		<button type="button" onclick="addMaterialRow()">「材料」の行を追加</button>
-
-		<!-- 作り方を入力するテーブル -->
-		<table id="howToMakeTable" border="1">
-			<thead>
-				<tr bgcolor="silver">
-					<th>作り方画像ファイル<br>(.jpgのみ選択可能)</th>
-					<th>作り方</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<!-- 作り方画像の入力フィールド -->
-					<td><input type="file" name="fileName2[]" /></td>
-					<!-- 作り方の説明を入力するフィールド -->
-					<td class="no-wrap">・<input type="text" name="howToMake[]" /></td>
-					<!-- 行削除ボタン -->
-					<td><input type="button" value="削除" onclick="deleteRow(this, 'howToMakeTable')" /></td>
-				</tr>
-			</tbody>
-		</table>
-		<!-- 作り方の行を追加するボタン -->
-		<button type="button" onclick="addHowToMakeRow()">「作り方」の行を追加</button>
-	</form>
+			<!-- 作り方を入力するテーブル -->
+			<table id="howToMakeTable" border="1">
+				<thead>
+					<tr bgcolor="silver">
+						<th>作り方画像ファイル<br>(.jpgのみ選択可能)</th>
+						<th>作り方</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<!-- 作り方画像の入力フィールド -->
+						<td data-label="作り方画像ファイル"><input type="file" name="fileName2[]" /></td>
+						<!-- 作り方の説明を入力するフィールド -->
+						<td data-label="作り方" class="no-wrap">・<input type="text" name="howToMake[]" /></td>
+						<!-- 行削除ボタン -->
+						<td data-label="操作"><input type="button" value="削除"
+								onclick="deleteRow(this, 'howToMakeTable')" /></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- 作り方の行を追加するボタン -->
+			<button type="button" onclick="addHowToMakeRow()">「作り方」の行を追加</button>
+		</form>
+	</div>
 </body>
 
 </html>

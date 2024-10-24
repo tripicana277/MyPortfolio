@@ -26,79 +26,81 @@
 				<button type="submit">収支画面</button>
 			</form>
 		</div>
-
-		<!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
-		<div class="right-align">
-			<!-- 認証済みユーザーのみ表示されるブロック -->
-			<div sec:authorize="isAuthenticated()">
-				ユーザー認証済み: <span sec:authentication="name">ログイン情報</span>
+		<div class="user-container">
+			<!-- 右揃え：ユーザー認証情報とログアウトフォーム -->
+			<div class="button-container">
+				<!-- 認証済みユーザーのみ表示されるブロック -->
+				<div sec:authorize="isAuthenticated()">
+					ユーザー認証済み: <span sec:authentication="name">ログイン情報</span>
+				</div>
+				<!-- ログアウトフォーム -->
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="ログアウト">
+				</form>
 			</div>
-			<!-- ログアウトフォーム -->
-			<form th:action="@{/logout}" method="post">
-				<input type="submit" value="ログアウト">
-			</form>
 		</div>
 	</div>
 
 	<!-- メインメニューに戻るボタン -->
 	<div class="layout-container">
-		<div class="button-container">
+		<div class="mainmanu-container">
 			<form action="/moveMainMenu" method="get">
 				<input type="submit" value="メインメニュー">
 			</form>
 		</div>
 	</div>
 
-	<!-- 統計画面のタイトル -->
-	<h1>統計画面</h1>
+	<div class="background-container">
+		<!-- 統計画面のタイトル -->
+		<h1>統計画面</h1>
 
-	<!-- ガイドメッセージを表示 -->
-	<p class="centered-text" style="background-color: rgba(255, 255, 255, 0.4);">
-		毎月の収支管理画面で入力したデータの<br>「月ごとの合計」「月ごとの平均値」「合算」を確認できます。
-	</p>
+		<!-- ガイドメッセージを表示 -->
+		<p class="centered-text">
+		    毎月の収支管理画面では、入力したデータの<br>「月ごとの合計」「月ごとの平均値」「合算」を確認できます。
+		</p>
 
-	<!-- 年を選択するためのボタンのグループ化 -->
-	<div class="button-group">
-		<!-- 去年の統計データを取得 -->
-		<form th:action="@{/getStatistics}" method="get">
-			<input type="hidden" name="id" th:value="1" />
-			<button type="submit">去年</button>
-		</form>
+		<!-- 年を選択するためのボタンのグループ化 -->
+		<div class="button-group">
+			<!-- 去年の統計データを取得 -->
+			<form th:action="@{/getStatistics}" method="get">
+				<input type="hidden" name="id" th:value="1" />
+				<button type="submit">去年</button>
+			</form>
 
-		<!-- 今年の統計データを取得 -->
-		<form th:action="@{/getStatistics}" method="get">
-			<input type="hidden" name="id" th:value="2" />
-			<button type="submit">今年</button>
-		</form>
+			<!-- 今年の統計データを取得 -->
+			<form th:action="@{/getStatistics}" method="get">
+				<input type="hidden" name="id" th:value="2" />
+				<button type="submit">今年</button>
+			</form>
 
-		<!-- 来年の統計データを取得 -->
-		<form th:action="@{/getStatistics}" method="get">
-			<input type="hidden" name="id" th:value="3" />
-			<button type="submit">来年</button>
-		</form>
+			<!-- 来年の統計データを取得 -->
+			<form th:action="@{/getStatistics}" method="get">
+				<input type="hidden" name="id" th:value="3" />
+				<button type="submit">来年</button>
+			</form>
+		</div>
+
+		<!-- 現在の年を表示 -->
+		<div class="date-display">
+			<span th:text="${#temporals.format(localDate, 'yyyy年')}"></span>
+		</div>
+
+		<!-- 統計データの合算（総資産）を表示 -->
+		<p>合算: <span th:text="${allAsset}"></span></p>
+
+		<!-- グラフの描画エリア（Canvas要素） -->
+		<canvas id="lineChart" width="400" height="200"></canvas>
+
+		<!-- グラフ描画用のスクリプト（後でJavaScriptコードを埋め込む） -->
+		<script th:inline="javascript">
+			// 変数としてサーバーから取得した平均収入と月別収入データをセット
+			var averageIncome = /*[[${averageIncome}]]*/ 0;
+			var treeMapMonthCount = /*[[${treeMapMonthCount}]]*/ {};
+		</script>
+
+		<!-- 外部JavaScriptファイルを読み込む -->
+		<script src="/js/statistics.js"></script>
 	</div>
-
-	<!-- 現在の年を表示 -->
-	<div class="date-display">
-		<span th:text="${#temporals.format(localDate, 'yyyy年')}"></span>
-	</div>
-
-	<!-- 統計データの合算（総資産）を表示 -->
-	<p>合算: <span th:text="${allAsset}"></span></p>
-
-	<!-- グラフの描画エリア（Canvas要素） -->
-	<canvas id="lineChart" width="400" height="200"></canvas>
-
-	<!-- グラフ描画用のスクリプト（後でJavaScriptコードを埋め込む） -->
-	<script th:inline="javascript">
-		// 変数としてサーバーから取得した平均収入と月別収入データをセット
-		var averageIncome = /*[[${averageIncome}]]*/ 0;
-		var treeMapMonthCount = /*[[${treeMapMonthCount}]]*/ {};
-	</script>
-
-	<!-- 外部JavaScriptファイルを読み込む -->
-	<script src="/js/statistics.js"></script>
-
 </body>
 
 </html>

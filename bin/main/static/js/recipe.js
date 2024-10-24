@@ -65,9 +65,9 @@ function addRow(tableId, rowHtml) {
 // 材料の新しい行を追加する関数
 function addMaterialRow() {
 	const rowHtml = `
-	<td class="no-wrap">・<input type="text" name="material[]" /></td>
-	<td class="no-wrap"><input type="text" name="quantity[]" /></td>
-	<td><input type="button" value="削除" onclick="deleteRow(this, 'materialTable')"></td>
+	<td data-label="材料" class="no-wrap">・<input type="text" name="material[]" /></td>
+	<td data-label="数量" class="no-wrap"><input type="text" name="quantity[]" /></td>
+	<td data-label="操作"><input type="button" value="削除" onclick="deleteRow(this, 'materialTable')"></td>
 	`;  // 材料と数量の入力フィールド、および削除ボタンを含むHTML
 	addRow('materialTable', rowHtml);  // 'materialTable'に新しい行を追加
 }
@@ -75,9 +75,9 @@ function addMaterialRow() {
 // 作り方の新しい行を追加する関数
 function addHowToMakeRow() {
 	const rowHtml = `
-	<td><input type="file" name="fileName2[]" /></td>
-	<td class="no-wrap">・<input type="text" name="howToMake[]" /></td>
-	<td><input type="button" value="削除" onclick="deleteRow(this, 'howToMakeTable')"></td>
+	<td data-label="作り方画像ファイル"><input type="file" name="fileName2[]" /></td>
+	<td data-label="作り方" class="no-wrap">・<input type="text" name="howToMake[]" /></td>
+	<td data-label="操作"><input type="button" value="削除" onclick="deleteRow(this, 'howToMakeTable')"></td>
 	`;  // 作り方の画像、作り方のテキスト入力フィールド、および削除ボタンを含むHTML
 	addRow('howToMakeTable', rowHtml);  // 'howToMakeTable'に新しい行を追加
 }
