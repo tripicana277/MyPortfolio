@@ -205,7 +205,6 @@ input[type="password"] {
 	justify-content: flex-end;
 	align-items: center;
 	width: 100%;
-	max-width: 700px;
 	margin-left: -10px;
 	/* 左に10px寄せる */
 	margin-right: auto;
