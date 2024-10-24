@@ -91,17 +91,12 @@ body {
 	width: 100%;
 	/* 幅を100%にし、親要素に応じてサイズが変わるように */
 	max-width: 450px;
-	/*	内側の余白 */
-	/*	margin-right: 20px;*/
-	/* コンテナの下に余白を追加*/
 	background-color: rgba(255, 255, 255, 0.8);
 	/* 半透明の背景色 */
 	border-radius: var(--border-radius);
 	/* ボーダーの丸みを適用 */
 	box-shadow: var(--box-shadow);
 	/* コンテナに影を付ける */
-	text-align: center;
-	/* テキストを中央揃えに */
 	box-sizing: border-box;
 	/* パディングとボーダーを含めて幅を調整 */
 	align-items: center;
@@ -215,6 +210,7 @@ input[type="password"] {
 	/* 左に10px寄せる */
 	margin-right: auto;
 	/* 右側の余白は自動 */
+	gap: 10px; /* 要素の間に10pxの間隔を追加 */
 }
 
 /* メインメニューコンテナ */
@@ -223,7 +219,6 @@ input[type="password"] {
 	justify-content: flex-end;
 	align-items: center;
 	width: 100%;
-	max-width: 700px;
 	margin-left: auto;
 	/* 左に10px寄せる */
 }
